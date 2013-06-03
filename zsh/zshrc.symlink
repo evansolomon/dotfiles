@@ -42,7 +42,7 @@ if command -v brew >/dev/null; then
 fi
 
 # -----------------------------------------------------------------------------
-# ZSH Syntax Highlighter Tweaks
+# ZSH Tweaks
 # -----------------------------------------------------------------------------
 
 # I dislike underlines.
@@ -50,6 +50,9 @@ if [ -n "${ZSH_HIGHLIGHT_STYLES+x}" ]; then
   ZSH_HIGHLIGHT_STYLES[precommand]='green'
   ZSH_HIGHLIGHT_STYLES[path]='none'
 fi
+
+# History verify is annoying
+unsetopt histverify
 
 # -----------------------------------------------------------------------------
 # Dotfiles
