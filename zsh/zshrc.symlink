@@ -29,7 +29,7 @@ PATH=/usr/local/bin:${PATH}
 PATH=$PATH:$HOME/.rvm/bin
 
 # Add local Node modules
-PATH="$PATH:./node_modules/.bin"
+PATH="./node_modules/.bin:$PATH"
 
 # Export the path.
 export PATH=$PATH
