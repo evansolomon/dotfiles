@@ -1,0 +1,11 @@
+[user]
+	email = evan@evanalyze.com
+	name = Evan Solomon
+[push]
+	default = simple
+[help]
+	autocorrect = 1
+[color]
+	ui = true
+[rerere]
+	enabled = 1

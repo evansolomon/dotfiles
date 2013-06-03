@@ -1,0 +1,14 @@
+# Only search with case sensitivity if there is mixed case
+--smart-case
+
+# Follow symlinks
+--follow
+
+# Add markdown
+--type-set=plaintext=.md
+
+# Add CSV files
+--type-set=csv=.csv
+
+# Add CoffeeScript
+--type-set=coffee=.coffee

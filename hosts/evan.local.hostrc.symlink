@@ -1,0 +1,12 @@
+# NPM completion
+eval "$(npm completion 2>/dev/null)"
+
+# Homebrew's PHP
+export PATH="$(brew --prefix php54)/bin:$PATH"
+
+# Names
+export WPORG_USER=evansolomon
+export DEFAULT_USER=evan.solomon
+
+# Impromptu prompt
+source impromptu
