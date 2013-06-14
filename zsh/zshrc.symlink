@@ -22,6 +22,11 @@ export EDITOR='st -w'
 # -----------------------------------------------------------------------------
 PATH=${PATH}:~/bin
 
+# Bin subdirectories
+for binsubdir in $(cd ~/bin && ls -d -- */); do
+  PATH=${PATH}:~/bin/$binsubdir
+done
+
 # Give homebrew priority.
 PATH=/usr/local/bin:${PATH}
 
