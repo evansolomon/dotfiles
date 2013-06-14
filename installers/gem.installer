@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+for gem in "capistrano" "railsless-deploy" "bundler" "scatter_deploy"; do
+  echo "Installing $gem from Rubygems"
+  gem install $gem >/dev/null 2>&1
+done

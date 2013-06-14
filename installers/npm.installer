@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+echo "Checking nvm installation"
+if [ ! -d "$HOME/.nvm" ]; then
+  echo "Installing NVM"
+  git clone git://github.com/creationix/nvm.git ~/.nvm >/dev/null 2>&1
+fi
+
+for package in "coffee-script" "use-impromptu" "grunt-cli"
+do
+  echo "Installing $package from NPM"
+  npm install -g $package >/dev/null 2>&1
+done
+

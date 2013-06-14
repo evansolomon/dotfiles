@@ -5,60 +5,9 @@ if [ -f $HOME/.zshrc ]; then
   source $HOME/.zshrc >/dev/null 2>&1
 fi
 
-# Homebrew existance
-echo "Checking Homebrew existance"
-which brew >/dev/null 2>&1
-if [ "0" -eq $? ]; then
-  BREW_EXISTS=1
-else
-  BREW_EXISTS=0
-fi
-
-# Check dependencies
-echo "Checking dependencies"
-for dep in "ack" "git" "svn" "zsh" "ssh-copy-id"
-do
-  command -v $dep >/dev/null 2>&1 || {
-    echo >&2 "I require $dep but it's not installed."
-
-    # Try installing missing dependencies with Homebrew
-    if [ "1" -eq $BREW_EXISTS ]; then
-      echo >&2 "Trying to install $dep with Homebrew"
-      brew install $dep
-    fi
-
-    # Check again after install attempt
-    command -v $dep >/dev/null 2>&1 || {
-      echo >&2 "Couldn't install $dep. Aborting"
-      exit 1;
-    }
-  }
-done
-
-# oh-my-zsh
-echo "Checking oh-my-zsh installation"
-if [ ! -d "$HOME/.oh-my-zsh" ]; then
-  echo "Installing oh-my-zsh"
-  git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh  >/dev/null 2>&1
-fi
-
-if [ ! -d "$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting" ]; then
-  echo "Installing zsh-syntax-highlighting"
-  mkdir -p "$HOME/.oh-my-zsh/custom/plugins/"
-  cd "$HOME/.oh-my-zsh/custom/plugins/"
-  git clone git://github.com/zsh-users/zsh-syntax-highlighting.git >/dev/null 2>&1
-fi
-
-# NPM
-echo "Checking nvm installation"
-if [ ! -d "$HOME/.nvm" ]; then
-  git clone git://github.com/creationix/nvm.git ~/.nvm >/dev/null 2>&1
-fi
-
-for package in "coffee-script" "use-impromptu" "grunt-cli"
-do
-  echo "Installing $package from NPM"
-  npm install -g $package >/dev/null 2>&1
+# Install packages
+for installer in $(find . -name "*.installer"); do
+  $installer
 done
 
 
