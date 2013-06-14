@@ -27,6 +27,9 @@ for binsubdir in $(cd ~/bin && ls -d -- */); do
   PATH=${PATH}:~/bin/$binsubdir
 done
 
+# Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"
+
 # Give homebrew priority.
 PATH=/usr/local/bin:${PATH}
 
