@@ -8,7 +8,9 @@ fi
 
 for package in "coffee-script" "use-impromptu" "grunt-cli"
 do
-  echo "Installing $package from NPM"
-  npm install -g $package >/dev/null 2>&1
+  npm list -g 2>/dev/null | ack "^[^a-zA-Z0-9]+$package" >/dev/null || {
+    echo "Installing $package from NPM"
+    npm install -g $package >/dev/null 2>&1
+  }
 done
 
