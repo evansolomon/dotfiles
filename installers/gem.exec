@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+echo "Checking Ruby gems"
 for gem in "capistrano" "railsless-deploy" "bundler" "scatter_deploy"; do
   gem list | ack $gem >/dev/null || {
     echo "Installing $gem from Rubygems"
