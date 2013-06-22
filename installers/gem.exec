@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+echo "Checking RVM installation"
+if [ ! -d ~/.rvm ]; then
+  \curl -L https://get.rvm.io | bash
+fi
+
 echo "Checking Ruby gems"
 for gem in "capistrano" "railsless-deploy" "bundler" "scatter_deploy"; do
   gem list | ack $gem >/dev/null || {
