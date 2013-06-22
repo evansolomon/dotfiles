@@ -5,6 +5,14 @@ if [ ! -d ~/.rvm ]; then
   \curl -L https://get.rvm.io | bash
 fi
 
+echo "Checking Ruby versions"
+for version in "1.8.7" "1.9.2" "1.9.3" "2.0.0"; do
+  rvm list | ack $version > /dev/null || {
+    echo "Installing Ruby version $version"
+    rvm install $version
+  }
+done
+
 echo "Checking Ruby gems"
 for gem in "capistrano" "railsless-deploy" "bundler" "scatter_deploy"; do
   gem list | ack $gem >/dev/null || {
