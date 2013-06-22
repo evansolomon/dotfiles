@@ -5,9 +5,9 @@ if [ -f $HOME/.zshrc ]; then
   source $HOME/.zshrc >/dev/null 2>&1
 fi
 
-# Install packages
-for installer in $(find . -name "*.installer"); do
-  $installer
+# Run executables
+for exec in $(find . -name "*.exec"); do
+  $exec
 done
 
 
