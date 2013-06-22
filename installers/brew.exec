@@ -3,30 +3,22 @@
 # Homebrew existance
 echo "Checking Homebrew existance"
 which brew >/dev/null 2>&1
-if [ "0" -eq $? ]; then
-  BREW_EXISTS=1
-else
-  BREW_EXISTS=0
+if [[ $? -ne 0 && "$(uname -s)" == "Darwin" ]]; then
+  echo "Installing Homebrew"
+  ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go)"
 fi
 
-# Check dependencies
-echo "Checking system packages"
-for dep in "ack" "git" "svn" "zsh" "ssh-copy-id"
-do
-  command -v $dep >/dev/null 2>&1 || {
-    echo >&2 "I require $dep but it's not installed."
-
-    # Try installing missing dependencies with Homebrew
-    if [ "1" -eq $BREW_EXISTS ]; then
-      echo >&2 "Trying to install $dep with Homebrew"
-      brew install $dep
-    fi
+if [ "$(uname -s)" == "Darwin" ]; then
+  for formula in "ack" "git" "svn" "zsh" "ssh-copy-id"; do
+    brew list | ack $formula >/dev/null || {
+      echo "Installing $formula with Homebrew"
+      brew install $formula
+    }
 
     # Check again after install attempt
-    command -v $dep >/dev/null 2>&1 || {
-      echo >&2 "Couldn't install $dep. Aborting"
-      exit 1;
+    command -v $formula >/dev/null 2>&1 || {
+      echo "Couldn't install $formula. Aborting"
+      exit 1
     }
-  }
-done
-
+  done
+fi
