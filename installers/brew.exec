@@ -10,7 +10,7 @@ else
 fi
 
 # Check dependencies
-echo "Checking dependencies"
+echo "Checking Homebrew dependencies"
 for dep in "ack" "git" "svn" "zsh" "ssh-copy-id"
 do
   command -v $dep >/dev/null 2>&1 || {
