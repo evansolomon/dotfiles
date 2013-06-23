@@ -17,7 +17,7 @@ for version in "1.8.7" "1.9.2" "1.9.3" "2.0.0"; do
 done
 
 echo "Setting latest Ruby as default"
-rvm --default use $(rvm list | ack "^\s+ruby" | tail -1 | ack "ruby-([^ ]+)" --output="\$1") >/dev/null
+rvm --default use $(rvm list | ack "\s+ruby" | tail -1 | ack "ruby-([^ ]+)" --output="\$1") >/dev/null
 
 echo "Checking Ruby gems"
 for gem in "capistrano" "railsless-deploy" "bundler" "scatter_deploy" "bundler"; do
