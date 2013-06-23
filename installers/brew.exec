@@ -9,14 +9,14 @@ if [[ $? -ne 0 && "$(uname -s)" == "Darwin" ]]; then
 fi
 
 if [ "$(uname -s)" == "Darwin" ]; then
-  for formula in "ack" "git" "svn" "zsh" "ssh-copy-id"; do
+  for formula in "ack" "git" "subversion" "zsh" "ssh-copy-id"; do
     brew list | ack $formula >/dev/null || {
       echo "Installing $formula with Homebrew"
       brew install $formula
     }
 
     # Check again after install attempt
-    command -v $formula >/dev/null 2>&1 || {
+    brew list | ack $formula >/dev/null 2>&1 || {
       echo "Couldn't install $formula. Aborting"
       exit 1
     }
