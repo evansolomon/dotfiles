@@ -10,7 +10,7 @@ fi
 
 echo "Checking installed Homebrew formulas"
 if [ "$(uname -s)" == "Darwin" ]; then
-  for formula in "ack" "git" "subversion" "zsh" "ssh-copy-id"; do
+  for formula in "ack" "git" "subversion" "zsh" "ssh-copy-id" "redis"; do
     brew list | ack $formula >/dev/null || {
       echo "Installing $formula with Homebrew"
       brew install $formula
