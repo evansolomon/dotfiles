@@ -13,9 +13,10 @@ status "Loading RVM"
 . "$HOME/.rvm/scripts/rvm"
 
 section "Checking installed Ruby versions"
+cached_rubies_list=$(rvm list)
 for version in "1.8.7" "1.9.2" "1.9.3" "2.0.0"; do
   status "Checking $version"
-  rvm list | ack $version > /dev/null && success "Ruby $version already installed" || {
+  echo $cached_rubies_list | ack $version > /dev/null && success "Ruby $version already installed" || {
     info "Installing Ruby version $version"
     if [[ $(rvm install $version) -eq 0 ]]; then
       success "Installed Ruby version $version"
