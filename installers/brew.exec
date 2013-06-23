@@ -8,6 +8,7 @@ if [[ $? -ne 0 && "$(uname -s)" == "Darwin" ]]; then
   ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go)"
 fi
 
+echo "Checking installed Homebrew formulas"
 if [ "$(uname -s)" == "Darwin" ]; then
   for formula in "ack" "git" "subversion" "zsh" "ssh-copy-id"; do
     brew list | ack $formula >/dev/null || {
