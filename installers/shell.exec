@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+section "Checking zsh installation"
+
+ack "$(brew --prefix)/bin/zsh$" /etc/shells >/dev/null
+if [[ $? -eq 0 ]]; then
+  success "Zsh is already enabled"
+else
+  status "Enabling zsh"
+  sudo echo "$(brew --prefix)/bin/zsh" >> /etc/shells >/dev/null
+  if [[ $? -eq 0 ]]; then
+    success "Enabled zsh"
+  fi
+fi
+
+if [[ "$SHELL" != "$(brew --prefix)/bin/zsh" ]]; then
+  status "Setting zsh as the default shell"
+  if [[ $(chsh -s "$(brew --prefix)/bin/zsh") -eq 0 ]]; then
+    success "Set zsh as the default shell"
+  fi
+else
+  success "Zsh is already set as the shell"
+fi
