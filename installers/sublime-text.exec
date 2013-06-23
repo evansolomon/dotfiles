@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+section "Checking SublimeText 2 settings"
+mkdir -p ./ignored-repos
+if [ ! -d ./ignored-repos/sublimetext ]; then
+  status "Cloning sublimetext settings repo"
+  git clone https://github.com/evansolomon/sublimetext.git ./ignored-repos/sublimetext >/dev/null 2>&1
+  if [[ $? -eq 0 ]]; then
+    success "Cloned sublimetext settings repo"
+  fi
+else
+  status "Updating sublimetext settings repo"
+  cd $DOTFILES/ignored-repos/sublimetext && git pull origin master >/dev/null 2>&1
+  if [[ $? -eq 0 ]]; then
+    success "Updated sublimetext settings repo"
+  fi
+fi
+
+status "Running sublimetext settings installer"
+cd $DOTFILES/ignored-repos/sublimetext && ./install
+if [[ $? -eq 0 ]]; then
+  success "Installed sublimetext settings"
+fi
