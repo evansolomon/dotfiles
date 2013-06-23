@@ -6,17 +6,27 @@ if [ "$(uname -s)" == "Darwin" ]; then
   section "Setting OSX defaults"
 
   # Disable press-and-hold for keys in favor of key repeat.
-  defaults write -g ApplePressAndHoldEnabled -bool false
+  if [[ $(defaults write -g ApplePressAndHoldEnabled -bool false) -eq 0 ]]; then
+    success "Disable press-and-hold"
+  fi
 
   # Use AirDrop over every interface. srsly this should be a default.
-  defaults write com.apple.NetworkBrowser BrowseAllInterfaces 1
+  if [[ $(defaults write com.apple.NetworkBrowser BrowseAllInterfaces 1) -eq 0 ]]; then
+    success "Enable AirDrop over every interface"
+  fi
 
   # Always open everything in Finder's list view. This is important.
-  defaults write com.apple.Finder FXPreferredViewStyle Nlsv
+  if [[ $(defaults write com.apple.Finder FXPreferredViewStyle Nlsv) -eq 0 ]]; then
+    success "Finder always uses list view"
+  fi
 
   # Show the ~/Library folder.
-  chflags nohidden ~/Library
+  if [[ $(chflags nohidden ~/Library) -eq 0 ]]; then
+    success "Show ~/Library folder"
+  fi
 
   # Set a really fast key repeat.
-  defaults write NSGlobalDomain KeyRepeat -int 0
+  if [[ $(defaults write NSGlobalDomain KeyRepeat -int 0) -eq 0 ]]; then
+    success "Set fast key repeat"
+  fi
 fi

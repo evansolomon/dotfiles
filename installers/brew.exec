@@ -12,7 +12,8 @@ fi
 if [ "$(uname -s)" == "Darwin" ]; then
   section "Checking Homebrew taps"
   for tap in "homebrew/dupes" "phinze/cask"; do
-    brew tap | ack $tap >/dev/null || {
+    status "Checking $tap"
+    brew tap | ack $tap >/dev/null && success "$tap already tapped" || {
       info "Tapping $tap"
       if [[ $(brew tap $tap) -eq 0 ]]; then
         success "Tapping $tap"
@@ -25,7 +26,7 @@ if [ "$(uname -s)" == "Darwin" ]; then
     brew-cask wget z watch spark multimarkdown ngrep s3cmd git-extras python)
   for formula in ${formulas[@]}; do
     status "Checking $formula"
-    brew list | ack $formula >/dev/null || {
+    brew list | ack $formula >/dev/null && success "$formula already installed" || {
       info "Installing $formula with Homebrew"
       if [[ $(brew install $formula) -eq 0 ]]; then
         success "Installed $formula with Homebrew"
@@ -43,7 +44,7 @@ if [ "$(uname -s)" == "Darwin" ]; then
     iterm2 propane rdio skype sublime-text things vlc virtualbox vagrant)
   for cask in ${casks[@]}; do
     status "Checking $cask"
-    brew cask list | ack $cask >/dev/null || {
+    brew cask list | ack $cask >/dev/null && success "$cask already installed" || {
       info "Installing $cask with Homebrew cask"
       if [[ $(brew cask install $cask) -eq 0 ]]; then
         success "Installed $cask with Homebrew cask"
