@@ -2,7 +2,7 @@
 
 section "Checking NVM installation"
 if [ ! -d "$HOME/.nvm" ]; then
-  status "Installing NVM"
+  info "Installing NVM"
   if [[ $(git clone git://github.com/creationix/nvm.git ~/.nvm >/dev/null 2>&1) -eq 0 ]]; then
     success "Installed NVM"
   fi
@@ -30,7 +30,7 @@ section "Checking NPM packages"
 for package in "coffee-script" "use-impromptu" "grunt-cli"; do
   status "Checking $package"
   npm list -g 2>/dev/null | ack "^[^a-zA-Z0-9]+$package" >/dev/null || {
-    status "Installing $package from NPM"
+    info "Installing $package from NPM"
     if [[ $(npm install -g $package >/dev/null 2>&1) -eq 0 ]]; then
       success "Installed $package"
     fi
