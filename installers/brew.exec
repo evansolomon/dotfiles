@@ -18,7 +18,8 @@ done
 
 echo "Checking installed Homebrew formulas"
 if [ "$(uname -s)" == "Darwin" ]; then
-  for formula in "ack" "git" "subversion" "zsh" "ssh-copy-id" "redis"; do
+  formulas=(ack git subversion zsh ssh-copy-id redis casperjs phantomjs brew-cask wget z watch spark multimarkdown ngrep s3cmd)
+  for formula in ${formulas[@]}; do
     brew list | ack $formula >/dev/null || {
       echo "Installing $formula with Homebrew"
       brew install $formula
