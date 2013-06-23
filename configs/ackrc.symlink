@@ -12,3 +12,9 @@
 
 # Add CoffeeScript
 --type-set=coffee=.coffee
+
+# Consisten file order
+--sort-files
+
+# Make it easier to see line numbers
+--color-lineno=magenta
