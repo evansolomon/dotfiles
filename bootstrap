@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# Make sure we start in the right directory
+# http://stackoverflow.com/a/246128/30098
+cd "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 for helper in ./helpers/*; do
   source $helper
 done
