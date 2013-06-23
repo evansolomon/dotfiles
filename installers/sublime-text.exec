@@ -17,7 +17,7 @@ else
 fi
 
 status "Running sublimetext settings installer"
-cd $DOTFILES/ignored-repos/sublimetext && ./install
+cd $DOTFILES/ignored-repos/sublimetext && ./install >/dev/null
 if [[ $? -eq 0 ]]; then
   success "Installed sublimetext settings"
 fi
