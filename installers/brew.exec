@@ -8,16 +8,17 @@ if [[ $? -ne 0 && "$(uname -s)" == "Darwin" ]]; then
   ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go)"
 fi
 
-echo "Checking Homebrew taps"
-for tap in "homebrew/dupes" "josegonzalez/php" "phinze/cask"; do
-  brew tap | ack $tap >/dev/null || {
-    echo "Tapping $tap"
-    brew tap $tap
-  }
-done
-
-echo "Checking installed Homebrew formulas"
+# Only do Homebrew stuff on OSX
 if [ "$(uname -s)" == "Darwin" ]; then
+  echo "Checking Homebrew taps"
+  for tap in "homebrew/dupes" "josegonzalez/php" "phinze/cask"; do
+    brew tap | ack $tap >/dev/null || {
+      echo "Tapping $tap"
+      brew tap $tap
+    }
+  done
+
+  echo "Checking installed Homebrew formulas"
   formulas=(ack git subversion zsh ssh-copy-id redis casperjs phantomjs brew-cask wget z watch spark multimarkdown ngrep s3cmd)
   for formula in ${formulas[@]}; do
     brew list | ack $formula >/dev/null || {
