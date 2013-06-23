@@ -30,9 +30,11 @@ if [[ $(rvm --default use $latestruby >/dev/null) -eq 0 ]]; then
 fi
 
 section "Checking Ruby gems"
+
+cached_gem_list=$(gem list)
 for gem in "capistrano" "railsless-deploy" "bundler" "scatter_deploy" "bundler" "license-generator"; do
   status "Checking $gem"
-  gem list | ack $gem >/dev/null && success "$gem already installed" || {
+  echo $cached_gem_list | ack $gem >/dev/null && success "$gem already installed" || {
     info "Installing $gem from Rubygems"
     if [[ $(gem install $gem >/dev/null 2>&1) -eq 0 ]]; then
       success "Installed $gem from Rubygems"
