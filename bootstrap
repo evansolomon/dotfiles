@@ -1,40 +1,60 @@
 #!/usr/bin/env bash
 
+source ./helpers/colors
+
+info "Starting dotfiles bootstrap"
+
 # Load user's environment
+section "Checking for zsh config at $HOME/.zshrc"
 if [ -f $HOME/.zshrc ]; then
+  status "Loading $HOME/.zshrc"
   source $HOME/.zshrc >/dev/null 2>&1
 fi
 
 # Symlink all *.symlink files
+section "Checking symlinks"
 for f in $(find . -name "*.symlink"); do
   FILENAME=$(basename $f);
   RELATIVEPATH=$(echo $f | sed 's/.\///')
   TARGETNAME=$(echo $FILENAME | sed 's/.symlink$//g')
-  echo "Linking $TARGETNAME"
   FULLPATH="$PWD/$RELATIVEPATH";
-  ln -nfs $FULLPATH "$HOME/.$TARGETNAME"
+
+  status "Linking $TARGETNAME"
+  if [[ $(ln -nfs $FULLPATH "$HOME/.$TARGETNAME") -eq 0 ]]; then
+    success "Linked $TARGETNAME"
+  fi
 done
 
 
 # Custom linking
+section "Checking custom symlinks"
 for f in $(find . -name "*.customlink"); do
   FILENAME=$(basename $f);
   RELATIVEPATH=$(echo $f | sed 's/.\///')
   TARGETNAME=$(echo $FILENAME | sed 's/.customlink$//g')
-  echo "Linking $TARGETNAME"
   FULLPATH="$PWD/$RELATIVEPATH";
   TARGETPATH=$(head -1 $RELATIVEPATH | sed 's/#//' | sed "s|^~|$HOME|")
-  ln -nfs "$FULLPATH" "$TARGETPATH"
+
+  status "Linking $TARGETNAME"
+  if [[ $(ln -nfs "$FULLPATH" "$TARGETPATH") -eq 0 ]]; then
+    success "Linked $TARGETNAME"
+  fi
 done
 
 # Linking directories
+section "Checking directory symlinks"
 for dir in $(find . -name "*.linkdir" -type d); do
   TARGET=$(cat $dir/_target | head -1 | sed "s|^~|$HOME|")
   DIRNAME=$(echo $dir | sed 's|\.linkdir$||' | sed 's|^./||')
-  ln -nfs "$PWD/$dir" "$TARGET/$DIRNAME"
+
+  status "Linking $TARGET/$DIRNAME"
+  if [[ $(ln -nfs "$PWD/$dir" "$TARGET/$DIRNAME") -eq 0 ]]; then
+    success "Linked $TARGET/$DIRNAME"
+  fi
 done
 
 # Run executables
+section "Running custom executables"
 for exec in $(find . -name "*.exec"); do
   $exec
 done

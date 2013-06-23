@@ -3,7 +3,7 @@
 # Based on https://github.com/holman/dotfiles/blob/master/osx/set-defaults.sh
 
 if [ "$(uname -s)" == "Darwin" ]; then
-  echo "Setting OSX defaults"
+  section "Setting OSX defaults"
 
   # Disable press-and-hold for keys in favor of key repeat.
   defaults write -g ApplePressAndHoldEnabled -bool false

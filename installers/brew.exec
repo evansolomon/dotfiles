@@ -1,35 +1,38 @@
 #!/usr/bin/env bash
 
 # Homebrew existance
-echo "Checking Homebrew existance"
+section "Checking Homebrew existance"
 which brew >/dev/null 2>&1
 if [[ $? -ne 0 && "$(uname -s)" == "Darwin" ]]; then
-  echo "Installing Homebrew"
+  info "Installing Homebrew"
   ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go)"
 fi
 
 # Only do Homebrew stuff on OSX
 if [ "$(uname -s)" == "Darwin" ]; then
-  echo "Checking Homebrew taps"
+  section "Checking Homebrew taps"
   for tap in "homebrew/dupes" "josegonzalez/php" "phinze/cask"; do
     brew tap | ack $tap >/dev/null || {
-      echo "Tapping $tap"
-      brew tap $tap
+      if [[ $(brew tap $tap) -eq 0 ]]; then
+        success "Tapping $tap"
+      fi
     }
   done
 
-  echo "Checking installed Homebrew formulas"
+  section "Checking installed Homebrew formulas"
   formulas=(ack git subversion zsh ssh-copy-id redis casperjs phantomjs brew-cask wget z watch spark multimarkdown ngrep s3cmd php54 git-extras)
   for formula in ${formulas[@]}; do
+    status "Checking $formula"
     brew list | ack $formula >/dev/null || {
-      echo "Installing $formula with Homebrew"
-      brew install $formula
+      status "Installing $formula with Homebrew"
+      if [[ $(brew install $formula) -eq 0 ]]; then
+        success "Installed $formula with Homebrew"
+      fi
     }
 
     # Check again after install attempt
     brew list | ack $formula >/dev/null 2>&1 || {
-      echo "Couldn't install $formula. Aborting"
-      exit 1
+      fail "Couldn't install $formula. Aborting"
     }
   done
 fi

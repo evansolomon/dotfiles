@@ -1,15 +1,18 @@
 #!/usr/bin/env bash
 
-echo "Checking NVM installation"
+section "Checking NVM installation"
 if [ ! -d "$HOME/.nvm" ]; then
-  echo "Installing NVM"
-  git clone git://github.com/creationix/nvm.git ~/.nvm >/dev/null 2>&1
+  status "Installing NVM"
+  if [[ $(git clone git://github.com/creationix/nvm.git ~/.nvm >/dev/null 2>&1) -eq 0 ]]; then
+    success "Installed NVM"
+  fi
 fi
 
 # Make sure NVM is available
+status "Loading NVM"
 source $HOME/.nvm/nvm.sh
 
-echo "Setting the latest stable Node as default"
+status "Setting the latest stable Node as default"
 for node in $(nvm ls | ack "v([0-9\.]+)" --output="\$1" | sort -t. -u -k 1.2,1n -k 2,2n -k 3,3n | uniq); do
   majorversion=$(echo $node | ack "^[0-9]+\.([0-9]+)" --output="\$1")
   remainer=$(( $majorversion % 2 ))
@@ -18,15 +21,19 @@ for node in $(nvm ls | ack "v([0-9\.]+)" --output="\$1" | sort -t. -u -k 1.2,1n 
   fi
 done
 if [ -n "$lateststable" ]; then
-  nvm alias default "$lateststable" >/dev/null
+  if [[ $(nvm alias default "$lateststable" >/dev/null) -eq 0 ]]; then
+    success "Set $lateststable as default Node"
+  fi
 fi
 
-echo "Checking NPM packages"
-for package in "coffee-script" "use-impromptu" "grunt-cli"
-do
+section "Checking NPM packages"
+for package in "coffee-script" "use-impromptu" "grunt-cli"; do
+  status "Checking $package"
   npm list -g 2>/dev/null | ack "^[^a-zA-Z0-9]+$package" >/dev/null || {
-    echo "Installing $package from NPM"
-    npm install -g $package >/dev/null 2>&1
+    status "Installing $package from NPM"
+    if [[ $(npm install -g $package >/dev/null 2>&1) -eq 0 ]]; then
+      success "Installed $package"
+    fi
   }
 done
 

@@ -1,20 +1,31 @@
 #!/usr/bin/env bash
 
-mkdir -p $DOTFILES/ignored-bin
+section "Setting up bin scripts"
+
+status "Creating $DOTFILES/ignored-bin"
+if [[ $(mkdir -p $DOTFILES/ignored-bin) -eq 0 ]]; then
+  success "Created $DOTFILES/ignored-bin"
+fi
 
 # git changelog
-echo "Installing git changelog"
+status "Installing git changelog"
 curl -s https://raw.github.com/evansolomon/git-changelog/master/git-changelog > $DOTFILES/ignored-bin/git-changelog
-chmod +x $DOTFILES/ignored-bin/git-changelog
+if [[ $(chmod +x $DOTFILES/ignored-bin/git-changelog) -eq 0 ]]; then
+  success "Installed git changelog"
+fi
 
 # git pluck
-echo "Installing git pluck"
+status "Installing git pluck"
 curl -s https://raw.github.com/evansolomon/git-pluck/master/git-pluck > $DOTFILES/ignored-bin/git-pluck
-chmod +x $DOTFILES/ignored-bin/git-pluck
+if [[ $(chmod +x $DOTFILES/ignored-bin/git-pluck) -eq 0 ]]; then
+  success "Installed git pluck"
+fi
 
 # Sublime Text shortcut
 if [ -f "/Applications/Sublime Text 2.app/Contents/SharedSupport/bin/subl" ]; then
-  echo "Linking subl executable"
+  status "Linking subl executable"
   ln -nfs "/Applications/Sublime Text 2.app/Contents/SharedSupport/bin/subl" $DOTFILES/ignored-bin/subl
-  ln -nfs "/Applications/Sublime Text 2.app/Contents/SharedSupport/bin/subl" $DOTFILES/ignored-bin/st
+  if [[ $(ln -nfs "/Applications/Sublime Text 2.app/Contents/SharedSupport/bin/subl" $DOTFILES/ignored-bin/st) -eq 0 ]]; then
+    success "Linked subl executable"
+  fi
 fi
