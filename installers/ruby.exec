@@ -30,7 +30,7 @@ if [[ $(rvm --default use $latestruby >/dev/null) -eq 0 ]]; then
 fi
 
 status "Checking Ruby gems"
-for gem in "capistrano" "railsless-deploy" "bundler" "scatter_deploy" "bundler"; do
+for gem in "capistrano" "railsless-deploy" "bundler" "scatter_deploy" "bundler" "license-generator"; do
   status "Checking $gem"
   gem list | ack $gem >/dev/null || {
     status "Installing $gem from Rubygems"
