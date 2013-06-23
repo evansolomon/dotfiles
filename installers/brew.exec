@@ -11,7 +11,7 @@ fi
 # Only do Homebrew stuff on OSX
 if [ "$(uname -s)" == "Darwin" ]; then
   section "Checking Homebrew taps"
-  for tap in "homebrew/dupes" "josegonzalez/php" "phinze/cask"; do
+  for tap in "homebrew/dupes" "phinze/cask"; do
     brew tap | ack $tap >/dev/null || {
       if [[ $(brew tap $tap) -eq 0 ]]; then
         success "Tapping $tap"
@@ -20,7 +20,7 @@ if [ "$(uname -s)" == "Darwin" ]; then
   done
 
   section "Checking installed Homebrew formulas"
-  formulas=(ack git subversion zsh ssh-copy-id redis casperjs phantomjs brew-cask wget z watch spark multimarkdown ngrep s3cmd php54 git-extras)
+  formulas=(ack git subversion zsh ssh-copy-id redis casperjs phantomjs brew-cask wget z watch spark multimarkdown ngrep s3cmd git-extras)
   for formula in ${formulas[@]}; do
     status "Checking $formula"
     brew list | ack $formula >/dev/null || {
