@@ -24,9 +24,11 @@ if [ "$(uname -s)" == "Darwin" ]; then
   section "Checking installed Homebrew formulas"
   formulas=(ack git subversion zsh ssh-copy-id redis casperjs phantomjs\
     brew-cask wget z watch spark multimarkdown ngrep s3cmd git-extras python)
+
+  cached_brew_list=$(brew list)
   for formula in ${formulas[@]}; do
     status "Checking $formula"
-    brew list | ack $formula >/dev/null && success "$formula already installed" || {
+    echo $cached_brew_list | ack $formula >/dev/null && success "$formula already installed" || {
       info "Installing $formula with Homebrew"
       if [[ $(brew install $formula) -eq 0 ]]; then
         success "Installed $formula with Homebrew"
@@ -42,9 +44,11 @@ if [ "$(uname -s)" == "Darwin" ]; then
   section "Checking installed Homebrew casks"
   casks=(google-chrome google-chrome-canary dropbox alfred adium cloudapp firefox\
     iterm2 propane rdio skype sublime-text things vlc virtualbox vagrant)
+
+  cached_brew_cask_list=$(brew cask list)
   for cask in ${casks[@]}; do
     status "Checking $cask"
-    brew cask list | ack $cask >/dev/null && success "$cask already installed" || {
+    echo $cached_brew_cask_list | ack $cask >/dev/null && success "$cask already installed" || {
       info "Installing $cask with Homebrew cask"
       if [[ $(brew cask install $cask) -eq 0 ]]; then
         success "Installed $cask with Homebrew cask"
