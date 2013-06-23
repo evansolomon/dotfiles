@@ -39,3 +39,15 @@ for gem in "capistrano" "railsless-deploy" "bundler" "scatter_deploy" "bundler" 
     fi
   }
 done
+
+section "Checking Rubygems.org credentials"
+if [ ! -f ~/.gem/credentials ]; then
+  status "Setting up Rubygems.org credentials"
+  mkdir -p ~/.gem
+
+  prompt "Rubygems.org username:"
+  read rubygems_username
+  if [[ $(curl --silent -u "$rubygems_username" https://rubygems.org/api/v1/api_key.yaml > ~/.gem/credentials) -eq 0 ]]; then
+    success "Setup Rubygems.org credentials"
+  fi
+fi

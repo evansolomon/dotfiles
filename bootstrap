@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-source ./helpers/colors
+for helper in ./helpers/*; do
+  source $helper
+done
 
 info "Starting dotfiles bootstrap"
 
