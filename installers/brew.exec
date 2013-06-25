@@ -44,7 +44,7 @@ if [ "$(uname -s)" == "Darwin" ]; then
   section "Checking installed Homebrew casks"
   casks=(google-chrome google-chrome-canary dropbox alfred adium cloudapp firefox\
     iterm2 propane rdio skype sublime-text things vlc virtualbox vagrant f-lux\
-    one-password)
+    one-password size-up)
 
   cached_brew_cask_list=$(brew cask list)
   for cask in ${casks[@]}; do
