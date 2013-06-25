@@ -11,3 +11,5 @@
 	enabled = 1
 [core]
 	excludesfile = ~/.gitignore
+[merge]
+	defaultToUpstream = true
