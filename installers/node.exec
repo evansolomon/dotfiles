@@ -28,7 +28,7 @@ fi
 
 section "Checking NPM packages"
 cached_npm_list=$(npm ls --parseable --global)
-for package in "coffee-script" "use-impromptu" "grunt-cli" "sparkfile" "express"; do
+for package in "coffee-script" "use-impromptu" "grunt-cli" "sparkfile" "express" "nodemon"; do
   status "Checking $package"
   echo $cached_npm_list | ack "$(dirname $NVM_PATH)/node_modules/$package\b" >/dev/null && success "$package already installed" || {
     info "Installing $package from NPM"
