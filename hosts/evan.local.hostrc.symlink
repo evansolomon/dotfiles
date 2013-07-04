@@ -1,8 +1,8 @@
 # NPM completion
 eval "$(npm completion 2>/dev/null)"
 
-# Homebrew's PHP
-export PATH="$(brew --prefix php54)/bin:$PATH"
+# Homebrew's PHP and Python
+export PATH="$(brew --prefix php54)/bin:$(brew --prefix)/share/python:$PATH"
 
 # Names
 export WPORG_USER=evansolomon
