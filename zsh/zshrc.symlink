@@ -18,31 +18,6 @@ export EDITOR='st -w'
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 
 # -----------------------------------------------------------------------------
-# $PATH
-# -----------------------------------------------------------------------------
-PATH="${PATH}:~/bin"
-
-# Bin subdirectories
-for binsubdir in $(cd ~/bin && ls -d -- */ | sed 's/\/$//'); do
-  PATH="${PATH}:~/bin/$binsubdir"
-done
-
-# Heroku Toolbelt
-PATH="/usr/local/heroku/bin:${PATH}"
-
-# Give homebrew priority.
-PATH="/usr/local/bin:${PATH}"
-
-# Add RVM to PATH
-PATH="${PATH}:${HOME}/.rvm/bin"
-
-# Add local Node modules
-PATH="./node_modules/.bin:${PATH}"
-
-# Export the path.
-export PATH=$PATH
-
-# -----------------------------------------------------------------------------
 # Load z
 # -----------------------------------------------------------------------------
 if command -v brew >/dev/null; then
