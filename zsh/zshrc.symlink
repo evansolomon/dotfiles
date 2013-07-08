@@ -23,6 +23,28 @@ export EDITOR='st -w'
 # Give homebrew priority.
 PATH="/usr/local/bin:${PATH}"
 
+PATH="${PATH}:$HOME/bin"
+
+# Bin subdirectories
+for binsubdir in $(cd ~/bin && ls -d -- */ | sed 's/\/$//'); do
+  PATH="${PATH}:$HOME/bin/$binsubdir"
+done
+
+# Heroku Toolbelt
+PATH="/usr/local/heroku/bin:${PATH}"
+
+# Give homebrew priority.
+PATH="/usr/local/bin:${PATH}"
+
+# Add RVM to PATH
+PATH="${PATH}:${HOME}/.rvm/bin"
+
+# Add local Node modules
+PATH="./node_modules/.bin:${PATH}"
+
+# Export the path.
+export PATH=$PATH
+
 # -----------------------------------------------------------------------------
 # Load z
 # -----------------------------------------------------------------------------
