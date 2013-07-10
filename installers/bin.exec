@@ -29,3 +29,10 @@ if [ -f "$HOME/Applications/Sublime Text 2.app/Contents/SharedSupport/bin/subl" 
     success "Linked subl executable"
   fi
 fi
+
+# gifify: https://github.com/jclem/gifify
+status "Installing gifify"
+curl --silent -o "$HOME/bin/gifify" -O https://raw.github.com/jclem/gifify/master/gifify.sh
+if [[ $(chmod +x "$HOME/bin/gifify") -eq 0 ]]; then
+  success "Installed gifify"
+fi

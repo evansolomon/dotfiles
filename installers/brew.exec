@@ -23,7 +23,8 @@ if [ "$(uname -s)" == "Darwin" ]; then
 
   section "Checking installed Homebrew formulas"
   formulas=(ack git subversion zsh ssh-copy-id redis casperjs phantomjs\
-    brew-cask wget z watch spark multimarkdown ngrep s3cmd git-extras python php54)
+    brew-cask wget z watch spark multimarkdown ngrep s3cmd git-extras python php54\
+    ffmpeg imagemagick)
 
   cached_brew_list=$(brew list)
   for formula in ${formulas[@]}; do
