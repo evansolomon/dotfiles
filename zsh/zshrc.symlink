@@ -20,9 +20,6 @@ export EDITOR='st -w'
 # -----------------------------------------------------------------------------
 # $PATH
 # -----------------------------------------------------------------------------
-# Give homebrew priority.
-PATH="/usr/local/bin:${PATH}"
-
 PATH="${PATH}:$HOME/bin"
 
 # Bin subdirectories
