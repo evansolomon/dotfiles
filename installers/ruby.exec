@@ -33,7 +33,9 @@ fi
 section "Checking Ruby gems"
 
 cached_gem_list=$(gem list)
-for gem in "capistrano" "railsless-deploy" "bundler" "scatter_deploy" "bundler" "license-generator" "cloudapp"; do
+gems=(capistrano railsless-deploy bundler scatter_deploy bundler license-generator cloudapp\
+  terminal-notifier)
+for gem in ${gems[@]}; do
   status "Checking $gem"
   echo $cached_gem_list | ack $gem >/dev/null && success "$gem already installed" || {
     info "Installing $gem from Rubygems"
