@@ -22,7 +22,7 @@ if [ "$(uname -s)" == "Darwin" ]; then
   done
 
   section "Checking installed Homebrew formulas"
-  formulas=(ack git subversion zsh ssh-copy-id redis casperjs phantomjs\
+  formulas=(ack git zsh ssh-copy-id redis casperjs phantomjs\
     brew-cask wget z watch spark multimarkdown ngrep s3cmd git-extras python php54\
     ffmpeg imagemagick)
 
