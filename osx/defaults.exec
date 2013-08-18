@@ -5,6 +5,62 @@
 if [ "$(uname -s)" == "Darwin" ]; then
   section "Setting OSX defaults"
 
+  # Ask for the administrator password upfront
+  sudo -v
+
+  # Disable the sound effects on boot
+  if [[ $(sudo nvram SystemAudioVolume=" ") -eq 0 ]]; then
+    success "Disabled sound effects on boot"
+  fi
+
+  # Trackpad: enable tap to click for this user and for the login screen
+  if [[ $( defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true && \
+      defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1 && \
+      defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1) -eq 0 ]]; then
+    success "Enabled tap to click"
+  fi
+
+  # Require password immediately after sleep or screen saver begins
+  if [[ $(defaults write com.apple.screensaver askForPassword -int 1 && \
+      defaults write com.apple.screensaver askForPasswordDelay -int 0) ]]; then
+    success "Requierd password after sleep or screensaver"
+  fi
+
+  # Disable the warning when changing a file extension
+  if [[ $(defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false) -eq 0 ]]; then
+    success "Disabled warning when changing file extension"
+  fi
+
+  # Empty Trash securely by default
+  if [[ $(defaults write com.apple.finder EmptyTrashSecurely -bool true) -eq 0 ]]; then
+    success "Empty Trash securely by default"
+  fi
+
+  # Disable the warning before emptying the Trash
+  if [[ $(defaults write com.apple.finder WarnOnEmptyTrash -bool false) -eq 0 ]]; then
+    success "Disable the warning before emptying the Trash"
+  fi
+
+  # Automatically hide and show the Dock
+  if [[ $(defaults write com.apple.dock autohide -bool true) -eq 0 ]]; then
+    success "Automatically hide and show the Dock"
+  fi
+
+  # Display full POSIX path as Finder window title
+  if [[ $(defaults write com.apple.finder _FXShowPosixPathInTitle -bool true) -eq 0 ]]; then
+    success "Enabled full path in Finder title"
+  fi
+
+  # Disable Resume system-wide
+  if [[ $(defaults write NSGlobalDomain NSQuitAlwaysKeepsWindows -bool false) -eq 0 ]]; then
+    success "Disabled app resume"
+  fi
+
+  # Disable the "Are you sure you want to open this application?" dialog
+  if [[ $(defaults write com.apple.LaunchServices LSQuarantine -bool false) -eq 0 ]]; then
+    success "Disabled application open confirmation dialog"
+  fi
+
   # Disable press-and-hold for keys in favor of key repeat.
   if [[ $(defaults write -g ApplePressAndHoldEnabled -bool false) -eq 0 ]]; then
     success "Disable press-and-hold"
