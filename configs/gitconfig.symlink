@@ -13,3 +13,5 @@
 	excludesfile = ~/.gitignore
 [merge]
 	defaultToUpstream = true
+[diff]
+	algorithm = patience
