@@ -11,6 +11,7 @@
 	enabled = 1
 [core]
 	excludesfile = ~/.gitignore
+	pager = less -F -X
 [merge]
 	defaultToUpstream = true
 [diff]
