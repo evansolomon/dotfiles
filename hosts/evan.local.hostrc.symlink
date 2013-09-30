@@ -14,3 +14,6 @@ source impromptu
 # AWS CLI tools
 export JAVA_HOME="$(/usr/libexec/java_home)"
 export EC2_HOME="/usr/local/Library/LinkedKegs/ec2-api-tools/jars"
+
+# added by travis gem
+source /Users/evan.solomon/.travis/travis.sh
