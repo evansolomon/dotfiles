@@ -81,3 +81,6 @@ fi
 if [[ -a ~/.$(hostname).hostrc ]]; then
   source ~/.$(hostname).hostrc
 fi
+
+# added by travis gem
+source /Users/evan.solomon/.travis/travis.sh
