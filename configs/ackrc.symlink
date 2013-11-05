@@ -13,8 +13,18 @@
 # Add CoffeeScript
 --type-set=coffee=.coffee
 
-# Consisten file order
+# Add Soy templates
+--type-set=soy=.soy
+
+# Add Jade templates
+--type-set=jade=.jade
+
+# Consistent file order
 --sort-files
 
 # Make it easier to see line numbers
 --color-lineno=magenta
+
+# Common ignore cases
+--ignore-dir=out/
+--ignore-dir=node_modules/
