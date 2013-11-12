@@ -29,7 +29,7 @@ fi
 section "Checking NPM packages"
 cached_npm_list=$(npm ls --parseable --global)
 npm_packages=(coffee-script use-impromptu grunt-cli sparkfile express nodemon\
-  bower yo generator-chrome-extension gify)
+  bower yo generator-chrome-extension gify grunt-init)
 for package in ${npm_packages[@]}; do
   status "Checking $package"
   echo $cached_npm_list | ack "$(dirname $NVM_PATH)/node_modules/$package\b" >/dev/null && success "$package already installed" || {
