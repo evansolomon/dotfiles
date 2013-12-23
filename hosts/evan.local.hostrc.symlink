@@ -9,6 +9,7 @@ export WPORG_USER=evansolomon
 export DEFAULT_USER=evan.solomon
 
 # Impromptu prompt
+export IMPROMPTU_UNIX_DOMAIN_SOCKET="${HOME}/.impromptu/.compiled/impromptu.sock"
 source impromptu
 
 # AWS CLI tools
