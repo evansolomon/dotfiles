@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-section "Checking SublimeText 2 settings"
+section "Checking SublimeText 3 settings"
 mkdir -p ./ignored-repos
 if [ ! -d ./ignored-repos/sublimetext ]; then
   status "Cloning sublimetext settings repo"

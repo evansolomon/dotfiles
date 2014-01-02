@@ -22,10 +22,11 @@ if [[ $(chmod +x $DOTFILES/ignored-bin/git-pluck) -eq 0 ]]; then
 fi
 
 # Sublime Text shortcut
-if [ -f "$HOME/Applications/Sublime Text 2.app/Contents/SharedSupport/bin/subl" ]; then
+SUBL="/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl"
+if [ -f "$SUBL" ]; then
   status "Linking subl executable"
-  ln -nfs "$HOME/Applications/Sublime Text 2.app/Contents/SharedSupport/bin/subl" $DOTFILES/ignored-bin/subl
-  if [[ $(ln -nfs "$HOME/Applications/Sublime Text 2.app/Contents/SharedSupport/bin/subl" $DOTFILES/ignored-bin/st) -eq 0 ]]; then
+  ln -nfs "$SUBL" $DOTFILES/ignored-bin/subl
+  if [[ $(ln -nfs "$SUBL" $DOTFILES/ignored-bin/st) -eq 0 ]]; then
     success "Linked subl executable"
   fi
 fi

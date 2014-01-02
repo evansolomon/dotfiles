@@ -7,7 +7,7 @@ source "${ZSH}/oh-my-zsh.sh"
 
 
 # -----------------------------------------------------------------------------
-# Default editor is Sublime Text 2 in wait mode
+# Default editor is Sublime Text 3 in wait mode
 # -----------------------------------------------------------------------------
 export EDITOR='st -w'
 
