@@ -41,25 +41,4 @@ if [ "$(uname -s)" == "Darwin" ]; then
       }
     }
   done
-
-  section "Checking installed Homebrew casks"
-  casks=(google-chrome google-chrome-canary dropbox alfred adium cloudapp firefox\
-    iterm2 propane rdio skype sublime-text things vlc virtualbox vagrant f-lux\
-    one-password size-up bartender)
-
-  cached_brew_cask_list=$(brew cask list)
-  for cask in ${casks[@]}; do
-    status "Checking $cask"
-    echo $cached_brew_cask_list | ack $cask >/dev/null && success "$cask already installed" || {
-      info "Installing $cask with Homebrew cask"
-      if [[ $(brew cask install $cask) -eq 0 ]]; then
-        success "Installed $cask with Homebrew cask"
-      fi
-
-      # Check again after install attempt
-      brew cask list | ack $cask >/dev/null 2>&1 || {
-        fail "Couldn't install $cask. Aborting"
-      }
-    }
-  done
 fi
