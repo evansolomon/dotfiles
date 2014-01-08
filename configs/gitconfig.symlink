@@ -16,3 +16,5 @@
 	defaultToUpstream = true
 [diff]
 	algorithm = patience
+[alias]
+	amend = commit --amend --no-edit
