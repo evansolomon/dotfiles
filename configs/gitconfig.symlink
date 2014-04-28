@@ -18,3 +18,4 @@
 	algorithm = patience
 [alias]
 	amend = commit --amend --no-edit
+	sortbranch = for-each-ref --sort=-committerdate --format='%(refname:short)' refs/heads/
