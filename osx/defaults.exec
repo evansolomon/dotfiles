@@ -85,4 +85,9 @@ if [ "$(uname -s)" == "Darwin" ]; then
   if [[ $(defaults write NSGlobalDomain KeyRepeat -int 0) -eq 0 ]]; then
     success "Set fast key repeat"
   fi
+
+  # Auto-correct is an abomination
+  if [[ $(defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool NO) -eq 0 ]]; then
+    success "Disabled auto-correct"
+  fi
 fi
