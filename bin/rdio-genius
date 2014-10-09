@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+artist=$(osascript -e 'tell application "Rdio" to get the artist of the current track')
+song=$(osascript -e 'tell application "Rdio" to get the name of the current track')
+
+qs=$(echo "${artist} ${song}" | sed 's/ /+/g')
+url="http://genius.com/search/quick?q=${qs}"
+
+res=$(curl -s "${url}" -H 'Accept: text/javascript')
+path=$(echo $res | ack "\|([^\|]+)\|" --output="\$1" | head -1)
+open "http://genius.com${path}"
