@@ -9,14 +9,14 @@ fi
 
 # git changelog
 status "Installing git changelog"
-curl -s https://raw.github.com/evansolomon/git-changelog/master/git-changelog > $DOTFILES/ignored-bin/git-changelog
+curl -s https://raw.githubusercontent.com/evansolomon/git-changelog/master/git-changelog > $DOTFILES/ignored-bin/git-changelog
 if [[ $(chmod +x $DOTFILES/ignored-bin/git-changelog) -eq 0 ]]; then
   success "Installed git changelog"
 fi
 
 # git pluck
 status "Installing git pluck"
-curl -s https://raw.github.com/evansolomon/git-pluck/master/git-pluck > $DOTFILES/ignored-bin/git-pluck
+curl -s https://raw.githubusercontent.com/evansolomon/git-pluck/master/git-pluck > $DOTFILES/ignored-bin/git-pluck
 if [[ $(chmod +x $DOTFILES/ignored-bin/git-pluck) -eq 0 ]]; then
   success "Installed git pluck"
 fi
@@ -33,7 +33,7 @@ fi
 
 # gifify: https://github.com/jclem/gifify
 status "Installing gifify"
-curl --silent -o "$HOME/bin/gifify" -O https://raw.github.com/jclem/gifify/master/gifify.sh
+curl --silent -o "$HOME/bin/gifify" -O https://raw.githubusercontent.com/jclem/gifify/master/gifify.sh
 if [[ $(chmod +x "$HOME/bin/gifify") -eq 0 ]]; then
   success "Installed gifify"
 fi
