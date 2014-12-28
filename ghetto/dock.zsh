@@ -5,11 +5,22 @@ dock () {
     case $1 in
       start) __dock_start                         ;;
       env)   __dock_env                           ;;
+      map)   __dock_map $2                        ;;
       *)     fail "'$1' is not a valid command"   ;;
     esac
   else
     info "No command, defaulting to \`dock start\`"
     dock start
+  fi
+}
+
+__dock_map () {
+  if [ "" -eq "${1}" ]; then
+    fail "Must provide a port to forward"
+  else
+    section "Setting up boot2docker port forwarding"
+    info "Forwarding port ${1}"
+    boot2docker ssh -N -L "${1}:localhost:${1}"
   fi
 }
 
