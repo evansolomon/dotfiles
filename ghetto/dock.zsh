@@ -6,11 +6,28 @@ dock () {
       start) __dock_start                         ;;
       env)   __dock_env                           ;;
       map)   __dock_map $2                        ;;
+      clean) __dock_clean                         ;;
       *)     fail "'$1' is not a valid command"   ;;
     esac
   else
     info "No command, defaulting to \`dock start\`"
     dock start
+  fi
+}
+
+__dock_clean () {
+  section "Cleaning up old Docker assets"
+
+  containers=$(docker ps -a -q)
+  if [ "" != "${containers}" ]; then
+    info "Removing stopped containers"
+    docker rm $(docker ps -a -q)
+  fi
+
+  images=$(docker images -q -f dangling=true)
+  if [ "" != "${images}" ]; then
+    info "Removing dangling images"
+    docker rmi $(docker images -q -f dangling=true)
   fi
 }
 
