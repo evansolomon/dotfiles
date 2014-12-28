@@ -5,19 +5,8 @@ eval "$(npm completion 2>/dev/null)"
 export PATH="$(brew --prefix php54)/bin:$(brew --prefix)/share/python:$PATH"
 
 # Names
-export WPORG_USER=evansolomon
-export DEFAULT_USER=evan.solomon
+export DEFAULT_USER=evan
 
 # Impromptu prompt
-export IMPROMPTU_UNIX_DOMAIN_SOCKET="${HOME}/.impromptu/.compiled/impromptu.sock"
+export IMPROMPTU_UNIX_DOMAIN_SOCKET="${HOME}/.impromptu/tmp/impromptu.sock"
 source impromptu
-
-# AWS CLI tools
-export JAVA_HOME="$(/usr/libexec/java_home)"
-export EC2_HOME="/usr/local/Library/LinkedKegs/ec2-api-tools/jars"
-
-# added by travis gem
-source "$HOME/.travis/travis.sh"
-
-# Medium
-export MEDIUM_FE_TEST_JOBS=3
