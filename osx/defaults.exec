@@ -90,4 +90,54 @@ if [ "$(uname -s)" == "Darwin" ]; then
   if [[ $(defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool NO) -eq 0 ]]; then
     success "Disabled auto-correct"
   fi
+
+  # Computer and network name
+  if [[ $( \
+    sudo scutil --set ComputerName "evan.local" && \
+    sudo scutil --set HostName "evan.local" && \
+    sudo scutil --set LocalHostName "evan.local" && \
+    sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "evan.local" \
+  ) -eq 0 ]]; then
+    success "Set computer name"
+  fi
+
+  if [[ $(defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false) -eq 0 ]]; then
+    success "Set save to local by default"
+  fi
+
+  if [[ $(defaults write com.apple.LaunchServices LSQuarantine -bool false) -eq 0 ]]; then
+    success "Disabled app open confirmation"
+  fi
+
+  if [[ $(defaults write com.apple.CrashReporter DialogType -string "none") -eq 0 ]]; then
+    success "Disbaled crash reporter"
+  fi
+
+  if [[ $(sudo systemsetup -setrestartfreeze on) -eq 0 ]]; then
+    success "Set restart on freeze"
+  fi
+
+  if [[ $(defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1) -eq 0 ]]; then
+    success "Set daily update checks"
+  fi
+
+  if [[ $(sudo pmset -a hibernatemode 0) -eq 0 ]]; then
+    success "Disbaled hibernation"
+  fi
+
+  if [[ $(sudo pmset -a sms 0) -eq 0 ]]; then
+    success "Disbaled sudden motion sensor"
+  fi
+
+  if [[ $(defaults write NSGlobalDomain AppleKeyboardUIMode -int 3) -eq 0 ]]; then
+    success "Enabled tab in dialogs"
+  fi
+
+  if [[ $(launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist 2> /dev/null) -eq 0 ]]; then
+    success "Stop iTunes from responding to media keys"
+  fi
+
+  if [[ $(defaults write com.googlecode.iterm2 PromptOnQuit -bool false) -eq 0 ]]; then
+    success "Disabled iTerm exit confirmation"
+  fi
 fi
