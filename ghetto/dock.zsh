@@ -7,12 +7,18 @@ dock () {
       env)   __dock_env                           ;;
       map)   __dock_map $2                        ;;
       clean) __dock_clean                         ;;
+      down)  __dock_down                          ;;
       *)     fail "'$1' is not a valid command"   ;;
     esac
   else
     info "No command, defaulting to \`dock start\`"
     dock start
   fi
+}
+
+__dock_down () {
+  info "Shutting down boot2docker"
+  boot2docker down
 }
 
 __dock_clean () {
