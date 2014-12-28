@@ -28,7 +28,7 @@ fi
 
 section "Checking NPM packages"
 cached_npm_list=$(npm ls --parseable --global)
-npm_packages=(coffee-script impromptu grunt-cli sparkfile nodemon express-generator "evansolomon/in")
+npm_packages=(coffee-script impromptu grunt-cli sparkfile nodemon express-generator "evansolomon/in" bower)
 for package in ${npm_packages[@]}; do
   # Handle "user/repo" style package names
   module_name=$(echo $package | cut -f2 -d "/")
