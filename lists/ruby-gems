@@ -1,6 +1,7 @@
 bundler
 capistrano
 cloudapp
+cocoapods
 license-generator
 railsless-deploy
 scatter_deploy
