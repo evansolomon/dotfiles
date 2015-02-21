@@ -28,8 +28,7 @@ fi
 
 section "Checking NPM packages"
 cached_npm_list=$(npm ls --parseable --global)
-npm_packages=(coffee-script impromptu/impromptu grunt-cli sparkfile express-generator "evansolomon/in")
-for package in ${npm_packages[@]}; do
+for package in $(read_list npm-packages); do
   # Handle "user/repo" style package names
   module_name=$(echo $package | cut -f2 -d "/")
   status "Checking $package"

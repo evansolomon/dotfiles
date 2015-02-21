@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+read_list() {
+  name="${1}"
+  cat "${DOTFILES}/lists/${name}"
+}
+
+export -f read_list

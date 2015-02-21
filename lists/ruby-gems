@@ -1,0 +1,9 @@
+bundler
+capistrano
+cloudapp
+license-generator
+railsless-deploy
+scatter_deploy
+terminal-notifier
+travis
+websocket-native

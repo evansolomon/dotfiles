@@ -2,7 +2,7 @@
 
 section "Checking PIP packages"
 cached_pip_list=$(pip list)
-for package in "boto sqlparse"; do
+for package in $(read_list pip-packages); do
   status "Checking $package"
   echo $cached_pip_list | ack "$package" >/dev/null && success "$package already installed" || {
     info "Installing $package from PIP"

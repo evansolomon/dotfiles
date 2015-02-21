@@ -22,13 +22,8 @@ if [ "$(uname -s)" == "Darwin" ]; then
   done
 
   section "Checking installed Homebrew formulas"
-  formulas=(ack git zsh ssh-copy-id redis casperjs phantomjs\
-    wget z watch ngrep python\
-    ffmpeg imagemagick jq graphicsmagick httpie ngrok\
-    heroku-toolbelt awscli)
-
   cached_brew_list=$(brew list)
-  for formula in ${formulas[@]}; do
+  for formula in $(read_list brew-packages); do
     status "Checking $formula"
     echo $cached_brew_list | ack $formula >/dev/null && success "$formula already installed" || {
       info "Installing $formula with Homebrew"
