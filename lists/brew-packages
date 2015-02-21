@@ -1,8 +1,12 @@
 ack
 awscli
+boot2docker
 casperjs
+cargo
 ffmpeg
+flow
 git
+go
 graphicsmagick
 heroku-toolbelt
 httpie
@@ -11,9 +15,12 @@ jq
 ngrep
 ngrok
 phantomjs
+postgresql
 python
 redis
+rust
 ssh-copy-id
+tree
 watch
 wget
 z
