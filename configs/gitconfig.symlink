@@ -3,6 +3,7 @@
 	name = Evan Solomon
 [push]
 	default = simple
+	followtags = true
 [help]
 	autocorrect = 1
 [color]
