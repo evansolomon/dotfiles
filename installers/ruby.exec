@@ -14,7 +14,7 @@ status "Loading RVM"
 
 section "Checking installed Ruby versions"
 cached_rubies_list=$(rvm list)
-for version in "2.0.0"; do
+for version in "2.2.2"; do
   status "Checking $version"
   echo $cached_rubies_list | ack $version > /dev/null && success "Ruby $version already installed" || {
     info "Installing Ruby version $version"
