@@ -20,3 +20,4 @@
 [alias]
 	amend = commit --amend --no-edit --reset-author
 	sortbranch = for-each-ref --sort=-committerdate --format='%(refname:short)' refs/heads/
+	up = ! git stash && git pull --rebase && git stash pop
