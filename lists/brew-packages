@@ -2,6 +2,8 @@ ack
 awscli
 boot2docker
 casperjs
+docker
+docker-compose
 ffmpeg
 flow
 fpp
