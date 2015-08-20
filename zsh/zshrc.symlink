@@ -90,3 +90,6 @@ fi
 if [[ -a ~/.secret.localrc ]]; then
   source ~/.secret.localrc
 fi
+
+# iojs repl history
+export NODE_REPL_HISTORY_FILE="${HOME}/.node_repl_history"
