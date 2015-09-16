@@ -12,16 +12,14 @@ fi
 status "Loading NVM"
 source $HOME/.nvm/nvm.sh
 
-for version in "v0.12.7" "iojs-v2.5.0"; do
-  if [[ $(nvm ls "${version}" >/dev/null 2>&1) -eq 0 ]]; then
-    status "Node version ${version} already installed"
-  else
-    nvm install "${version}"
-  fi
+for version in "iojs-v3.3.1" "v4.0.0"; do
+  status "Checking node.js version ${version}"
+  nvm install "${version}"
 done
 
-section "Setting latest Node version as default"
-nvm alias default iojs-v2.5.0
+section "Setting Node default"
+nvm alias default iojs-v3.3.1
+nvm use default
 
 section "Checking NPM packages"
 cached_npm_list=$(npm ls --parseable --global)
@@ -36,4 +34,3 @@ for package in $(read_list npm-packages); do
     fi
   }
 done
-
