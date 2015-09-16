@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+REMOTE="$(git config --get remote.origin.url)"
+if [[ "${REMOTE}" == "" ]]; then
+  echo "Could not find REMOTE, exiting"
+  exit 1
+fi
+
+HOST="$(echo ${REMOTE} | ack "@([^:]+)" --output="\$1")"
+if [[ "${HOST}" == "" ]]; then
+  echo "Could not find HOST, exiting"
+  exit 1
+fi
+
+OWNER="$(echo ${REMOTE} | ack ":([^\/]+)" --output="\$1")"
+if [[ "${OWNER}" == "" ]]; then
+  echo "Could not find OWNER, exiting"
+  exit 1
+fi
+
+REPO="$(echo ${REMOTE} | ack "\/(.+)\.git" --output="\$1")"
+if [[ "${REPO}" == "" ]]; then
+  echo "Could not find REPO, exiting"
+  exit 1
+fi
+
+BRANCH="$(git symbolic-ref --short -q HEAD)"
+if [[ "${BRANCH}" == "" ]]; then
+  echo "Could not find BRANCH, exiting"
+  exit 1
+fi
+
+URL=""
+if [[ "${HOST}" == "bitbucket.org" ]]; then
+  URL="https://bitbucket.org/${OWNER}/${REPO}/pull-requests/new?source=${BRANCH}&t=1"
+elif [[ "${HOST}" == "github.com" ]]; then
+  URL="https://github.com/${OWNER}/${REPO}/tree/${BRANCH}"
+fi
+
+if [[ "${URL}" == "" ]]; then
+  echo "No PR URL found :("
+  exit 1
+else
+  open "${URL}"
+fi
