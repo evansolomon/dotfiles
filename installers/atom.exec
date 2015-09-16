@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+section "Checking APM existance"
+which apm >/dev/null 2>&1
+if [[ $? -ne 0 ]]; then
+  fail "APM not installed, skipping Atom packages"
+else
+  status "Checking APM packages"
+  cached_apm_list=$(apm list --packages --installed --bare)
+
+  for package in $(read_list apm-packages); do
+    status "Checking ${package}"
+    echo "${cached_apm_list}" | ack "^${package}@" >/dev/null 2>&1
+    if [[ $? -ne 0 ]]; then
+      info "Installing ${package}"
+      apm install "${package}" && success "Installed ${package}"
+    fi
+  done;
+fi
