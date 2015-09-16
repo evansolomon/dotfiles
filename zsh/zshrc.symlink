@@ -11,9 +11,9 @@ source "${ZSH}/oh-my-zsh.sh"
 
 
 # -----------------------------------------------------------------------------
-# Default editor is Sublime Text 3 in wait mode
+# Default editor is Atom 3 in wait mode
 # -----------------------------------------------------------------------------
-export EDITOR='st -w'
+export EDITOR='atom -w'
 
 # -----------------------------------------------------------------------------
 # Version managers

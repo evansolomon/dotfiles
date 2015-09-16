@@ -13,13 +13,3 @@ curl -s https://raw.githubusercontent.com/evansolomon/git-pluck/master/git-pluck
 if [[ $(chmod +x $DOTFILES/ignored-bin/git-pluck) -eq 0 ]]; then
   success "Installed git pluck"
 fi
-
-# Sublime Text shortcut
-SUBL="/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl"
-if [ -f "$SUBL" ]; then
-  status "Linking subl executable"
-  ln -nfs "$SUBL" $DOTFILES/ignored-bin/subl
-  if [[ $(ln -nfs "$SUBL" $DOTFILES/ignored-bin/st) -eq 0 ]]; then
-    success "Linked subl executable"
-  fi
-fi
