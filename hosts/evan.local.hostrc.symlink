@@ -8,6 +8,7 @@ export DEFAULT_USER=evan
 export IMPROMPTU_UNIX_DOMAIN_SOCKET="${HOME}/.impromptu/tmp/impromptu.sock"
 source impromptu
 
-export DOCKER_HOST="tcp://$(boot2docker ip):2376"
-export DOCKER_CERT_PATH="${HOME}/.boot2docker/certs/boot2docker-vm"
-export DOCKER_TLS_VERIFY=1
+# Docker Machine
+DOCKER_MACHINE_NAME="dev"
+export DEFAULT_DOCKER_MACHINE_NAME="${DOCKER_MACHINE_NAME}"
+eval "$(docker-machine env ${DOCKER_MACHINE_NAME})"
