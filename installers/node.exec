@@ -1,33 +1,12 @@
 #!/usr/bin/env bash
 
-section "Checking NVM installation"
-if [ ! -d "$HOME/.nvm" ]; then
-  info "Installing NVM"
-  if [[ $(git clone git://github.com/creationix/nvm.git ~/.nvm >/dev/null 2>&1) -eq 0 ]]; then
-    success "Installed NVM"
-  fi
-fi
-
-# Make sure NVM is available
-status "Loading NVM"
-source $HOME/.nvm/nvm.sh
-
-for version in "iojs-v3.3.1" "v4.0.0"; do
-  status "Checking node.js version ${version}"
-  nvm install "${version}"
-done
-
-section "Setting Node default"
-nvm alias default iojs-v3.3.1
-nvm use default
-
 section "Checking NPM packages"
 cached_npm_list=$(npm ls --parseable --global)
 for package in $(read_list npm-packages); do
   # Handle "user/repo" style package names
-  module_name=$(echo $package | cut -f2 -d "/")
+  module_name=$(echo $package | cut -f2 -d "/" | cut -f1 -d "@")
   status "Checking $package"
-  echo $cached_npm_list | ack "$(dirname $NVM_PATH)/node_modules/$module_name\b" >/dev/null && success "$package already installed" || {
+  echo $cached_npm_list | ack "/usr/local/lib/node_modules/$module_name\b" >/dev/null && success "$package already installed" || {
     info "Installing $package from NPM"
     if [[ $(npm install -g $package >/dev/null 2>&1) -eq 0 ]]; then
       success "Installed $package"
