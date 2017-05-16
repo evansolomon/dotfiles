@@ -91,16 +91,6 @@ if [ "$(uname -s)" == "Darwin" ]; then
     success "Disabled auto-correct"
   fi
 
-  # Computer and network name
-  if [[ $( \
-    sudo scutil --set ComputerName "evan.local" && \
-    sudo scutil --set HostName "evan.local" && \
-    sudo scutil --set LocalHostName "evan" && \
-    sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "evan.local" \
-  ) -eq 0 ]]; then
-    success "Set computer name"
-  fi
-
   if [[ $(defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false) -eq 0 ]]; then
     success "Set save to local by default"
   fi
