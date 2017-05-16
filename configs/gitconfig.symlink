@@ -1,5 +1,4 @@
 [user]
-	email = evan@evanalyze.com
 	name = Evan Solomon
 [push]
 	default = simple
@@ -15,9 +14,18 @@
 	pager = less -F -X
 [merge]
 	defaultToUpstream = true
+	ff = only
+	conflictstyle = diff3
 [diff]
 	algorithm = patience
 [alias]
 	amend = commit --amend --no-edit --reset-author
 	sortbranch = for-each-ref --sort=-committerdate --format='%(refname:short)' refs/heads/
 	up = ! git stash && git pull --rebase && git stash pop
+	rev = ! git prep && git review
+	prep = ! git branch --set-upstream-to=origin/master && git fetch && touch .git-stash-dummy && git stash save -u -q && git rebase origin/master && git stash pop -q && rm .git-stash-dummy
+	prune = fetch --prune
+[grep]
+	patternType = perl
+[status]
+	showUntrackedFiles = all

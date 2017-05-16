@@ -3,6 +3,8 @@ eval "$(npm completion 2>/dev/null)"
 
 # Names
 export DEFAULT_USER=evan
+export GIT_AUTHOR_EMAIL="evan@evanalyze.com"
+export GIT_COMMITTER_EMAIL="${GIT_AUTHOR_EMAIL}"
 
 # Impromptu prompt
 export IMPROMPTU_UNIX_DOMAIN_SOCKET="${HOME}/.impromptu/tmp/impromptu.sock"
