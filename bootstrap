@@ -11,6 +11,16 @@ done
 
 info "Starting dotfiles bootstrap"
 
+section "Cleanup old symlinks"
+links=$(find $HOME -maxdepth 1 -type l)
+for l in $links; do
+  SOURCE_FILE=$(readlink $l)
+  if [[ "${SOURCE_FILE}" == "${DOTFILES}"* ]]; then
+    status "Deleting ${l}"
+    rm $l
+  fi
+done
+
 # Symlink all *.symlink files
 section "Checking symlinks"
 for f in $(find . -name "*.symlink"); do
