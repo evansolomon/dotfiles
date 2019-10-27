@@ -1,0 +1,48 @@
+# Names
+export DEFAULT_USER=esolomon
+export GIT_AUTHOR_EMAIL="esolomon@linkedin.com"
+export GIT_COMMITTER_EMAIL="${GIT_AUTHOR_EMAIL}"
+
+# LinkedIn tab completion
+fpath=("/usr/local/linkedin/etc/zsh" "/export/content/linkedin/etc/zsh" $fpath)
+autoload -U compinit && compinit
+
+export PATH="${PATH}:/export/content/linkedin/bin:/Users/esolomon/.local/bin"
+
+export PLAY_ON_GRADLE=true
+export EDITOR='code -w'
+export GRADLE_OPTS="-Dorg.gradle.caching=true"
+
+export VOLTA_HOME="$HOME/.volta"
+[ -s "$VOLTA_HOME/load.sh" ] && . "$VOLTA_HOME/load.sh"
+export PATH="$VOLTA_HOME/bin:$PATH"
+
+
+# iTerm2 window/tab color commands
+#   Requires iTerm2 >= Build 1.0.0.20110804
+#   http://code.google.com/p/iterm2/wiki/ProprietaryEscapeCodes
+tab-color() {
+    echo -ne "\033]6;1;bg;red;brightness;$1\a"
+    echo -ne "\033]6;1;bg;green;brightness;$2\a"
+    echo -ne "\033]6;1;bg;blue;brightness;$3\a"
+}
+tab-reset() {
+    echo -ne "\033]6;1;bg;*;default\a"
+}
+
+# Change the color of the tab when using SSH
+# reset the color after the connection closes
+color-ssh() {
+    if [[ -n "$ITERM_SESSION_ID" ]]; then
+        trap "tab-reset" INT EXIT
+        if [[ "$*" =~ "production|ec2-.*compute-1" ]]; then
+            tab-color 255 0 0
+        else
+            tab-color 0 255 0
+        fi
+    fi
+    ssh $*
+}
+compdef _ssh color-ssh=ssh
+
+alias ssh=color-ssh

@@ -1,0 +1,35 @@
+# Names
+export DEFAULT_USER=esolomon
+export GIT_AUTHOR_EMAIL="esolomon@linkedin.com"
+export GIT_COMMITTER_EMAIL="${GIT_AUTHOR_EMAIL}"
+
+# LinkedIn tab completion
+fpath=("/usr/local/linkedin/etc/zsh" "/export/content/linkedin/etc/zsh" $fpath)
+autoload -U compinit && compinit
+
+export PATH="${PATH}:/export/content/linkedin/bin:/Users/esolomon/.local/bin"
+
+export PLAY_ON_GRADLE=true
+export EDITOR='code -w'
+export GRADLE_OPTS="-Dorg.gradle.caching=true"
+
+export VOLTA_HOME="$HOME/.volta"
+[ -s "$VOLTA_HOME/load.sh" ] && . "$VOLTA_HOME/load.sh"
+export PATH="$VOLTA_HOME/bin:$PATH"
+
+if [[ -o login ]]; then
+  eval `keychain --eval ~/.ssh/esolomon_at_linkedin.com_ssh_key`
+fi
+
+export NETREPO=svn+ssh://svn.corp.linkedin.com/netrepo/network
+export LIREPO=svn+ssh://svn.corp.linkedin.com/lirepo
+export VENREPO=svn+ssh://svn.corp.linkedin.com/vendor
+
+export JAVA_HOME=/export/apps/jdk/JDK-1_8_0_40
+export JDK_HOME=/export/apps/jdk/JDK-1_8_0_40
+export NLS_LANG=American_America.UTF8
+
+export M2_HOME=/local/maven
+export M2=$M2_HOME/bin
+
+export PATH=$PATH:$JAVA_HOME/bin:/usr/local/bin:/usr/local/mysql/bin:/usr/local/linkedin/bin

@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+TARGER_DIR="${DOTFILES}/ignored-repos"
+mkdir -p $TARGER_DIR
+cd $TARGER_DIR
+
+section "Checking git repos"
+for repo in $(read_list git-repos); do \
+  status "Installing ${repo}"
+
+  git clone $repo >/dev/null 2>&1
+  if [[ $? -eq 0 ]]; then
+    success "$repo installed"
+  else
+    success "$repo skipped, already installed or failed"
+  fi
+done

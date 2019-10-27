@@ -1,25 +1,14 @@
 #!/usr/bin/env bash
 
-# Homebrew existance
-section "Checking Homebrew existance"
-which brew >/dev/null 2>&1
-if [[ $? -ne 0 && "$(uname -s)" == "Darwin" ]]; then
-  info "Installing Homebrew"
-  ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go)"
-fi
-
 # Only do Homebrew stuff on OSX
 if [ "$(uname -s)" == "Darwin" ]; then
-  section "Checking Homebrew taps"
-  for tap in $(read_list brew-taps); do
-    status "Checking $tap"
-    brew tap | ack $tap >/dev/null && success "$tap already tapped" || {
-      info "Tapping $tap"
-      if [[ $(brew tap $tap) -eq 0 ]]; then
-        success "Tapping $tap"
-      fi
-    }
-  done
+  # Homebrew existance
+  section "Checking Homebrew existance"
+  which brew >/dev/null 2>&1
+  if [[ $? -ne 0 ]]; then
+    info "Installing Homebrew"
+    ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go)"
+  fi
 
   section "Checking installed Homebrew formulas"
   cached_brew_list=$(brew list)

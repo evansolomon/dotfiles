@@ -1,0 +1,39 @@
+# Case insensitive unless the search contains uppercase
+--smart-case
+
+# Follow symlinks
+--follow
+
+# Less jarring file name colors
+--colors
+path:fg:cyan
+
+# Handlebars files
+--type-add
+hbs:*.hbs
+
+# Any test files
+--type-add
+test:*{T,t}est*
+
+# Non test files
+--type-add
+notest:!*{T,t}est*
+
+# Alias for sass type
+--type-add
+scss:include:sass
+
+# Alias for pdsc files
+--type-add
+pdsc:*.pdsc
+
+# Aliases for LinkedIn java apps
+--type-add
+resource:*Resource.java
+--type-add
+service:*Service.java
+--type-add
+formatter:*Formatter.java
+--type-add
+client:*Client.java

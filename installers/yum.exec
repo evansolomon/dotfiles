@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+# Only do Homebrew stuff on OSX
+if [ "$(uname -s)" == "Linux" ]; then
+  section "Checking yum existance"
+  which yum >/dev/null 2>&1
+  if [[ $? -ne 0 ]]; then
+    fail "Could not find yum"
+  else
+    section "Checking installed yum packages"
+    for pkg in $(read_list yum-packages); do\
+      status "Installing $pkg"
+      sudo yum install "${pkg}" -y
+    done
+  fi
+fi

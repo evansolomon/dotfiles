@@ -5,13 +5,9 @@ httpie
 jq
 ngrep
 node
-phantomjs
-postgresql
-python
-redis
 ripgrep
-ssh-copy-id
 tree
+terminal-notifier
 watch
 wget
 yarn

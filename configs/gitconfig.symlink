@@ -18,6 +18,8 @@
 	conflictstyle = diff3
 [diff]
 	algorithm = patience
+	indentHeuristic = on
+	compactionHeuristic = on
 [alias]
 	amend = commit --amend --no-edit --reset-author
 	sortbranch = for-each-ref --sort=-committerdate --format='%(refname:short)' refs/heads/
@@ -25,6 +27,8 @@
 	rev = ! git prep && git review
 	prep = ! git branch --set-upstream-to=origin/master && git fetch && touch .git-stash-dummy && git stash save -u -q && git rebase origin/master && git stash pop -q && rm .git-stash-dummy
 	prune = fetch --prune
+	names = show --name-only
+	l = log --graph --pretty=format:'%Cred%h%Creset %Cblue[%an]%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%Creset' --abbrev-commit
 [grep]
 	patternType = perl
 [status]
