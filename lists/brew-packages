@@ -11,5 +11,4 @@ terminal-notifier
 watch
 wget
 yarn
-z
 zsh
