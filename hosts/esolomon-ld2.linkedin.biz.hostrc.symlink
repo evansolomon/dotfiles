@@ -18,7 +18,7 @@ export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
 
 if [[ -o login ]]; then
-  eval `keychain --eval ~/.ssh/esolomon_at_linkedin.com_ssh_key`
+  eval `keychain --eval ~/.ssh/esolomon_at_linkedin.com_ssh_key -q`
 fi
 
 export NETREPO=svn+ssh://svn.corp.linkedin.com/netrepo/network
