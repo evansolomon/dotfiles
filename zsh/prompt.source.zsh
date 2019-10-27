@@ -19,13 +19,14 @@ git_root_or_pwd() {
   echo $(git rev-parse --show-toplevel 2>/dev/null || pwd)
 }
 
-get_color_for_pwd() {
-  index=$(echo "$((16#$(git_root_or_pwd | shasum | cut -c -8))) % $COLORS_LENGTH" -n | bc)
+colorize_string() {
+  index=$(echo "$((16#$($1 | shasum | cut -c -8))) % $COLORS_LENGTH" -n | bc)
   adjusted_index=$(echo "$index + 1" | bc)
   echo $PWD_COLORS[$adjusted_index]
 }
 
-PROMPT='%$(get_color_for_pwd)F%$((-GITSTATUS_PROMPT_LEN-1))<…<%~%<<%f'   # current working directory
+PROMPT='[%$(colorize_string hostname)F%m%f] ' # hostname
+PROMPT+='%$(colorize_string git_root_or_pwd)F%$((-GITSTATUS_PROMPT_LEN-1))<…<%~%<<%f'   # current working directory
 PROMPT+='${GITSTATUS_PROMPT:+ $GITSTATUS_PROMPT}'      # git status
 PROMPT+=$'\n'                                          # new line
 PROMPT+='%F{%(?.76.196)}$%f '                          # $; green/red (ok/error)
