@@ -1,5 +1,4 @@
 # Names
-export DEFAULT_USER=esolomon
 export GIT_AUTHOR_EMAIL="esolomon@linkedin.com"
 export GIT_COMMITTER_EMAIL="${GIT_AUTHOR_EMAIL}"
 
