@@ -1,13 +1,9 @@
-ack
 git
-htop
 httpie
 jq
-ngrep
 node
 ripgrep
 tree
-terminal-notifier
 watch
 wget
 yarn

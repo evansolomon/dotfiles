@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-TARGER_DIR="${DOTFILES}/ignored-repos"
-mkdir -p $TARGER_DIR
-cd $TARGER_DIR
+TARGET_DIR="${DOTFILES}/ignored-repos"
+mkdir -p $TARGET_DIR
+cd $TARGET_DIR
 
 section "Checking git repos"
 for repo in $(read_list git-repos); do \
