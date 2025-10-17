@@ -1,0 +1,124 @@
+tap "hashicorp/tap"
+tap "ngrok/ngrok"
+tap "oven-sh/bun"
+# Cryptography and SSL/TLS Toolkit
+brew "openssl@3"
+# YAML Parser
+brew "libyaml"
+# Display directories as trees (with optional color/HTML output)
+brew "tree"
+# Automate deployment, configuration, and upgrading
+brew "ansible"
+# Core application library for C
+brew "glib"
+# Official Amazon AWS command-line interface
+brew "awscli"
+# Vector graphics library with cross-device output support
+brew "cairo"
+# Cloudflare Tunnel client (formerly Argo Tunnel)
+brew "cloudflared"
+# Cross-platform make
+brew "cmake"
+# GNU File, Shell, and Text utilities
+brew "coreutils"
+# Get a file from an HTTP, HTTPS or FTP server
+brew "curl"
+# Perl lib for reading and writing EXIF metadata
+brew "exiftool"
+# Validating, recursive, caching DNS resolver
+brew "unbound"
+# OpenType text shaping engine
+brew "harfbuzz"
+# Subtitle renderer for the ASS/SSA subtitle format
+brew "libass"
+# OCR (Optical Character Recognition) engine
+brew "tesseract"
+# Play, record, convert, and stream audio and video
+brew "ffmpeg"
+# User-friendly command-line shell for UNIX-like operating systems
+brew "fish"
+# Command-line fuzzy finder written in Go
+brew "fzf"
+# Interpreter for PostScript and PDF
+brew "ghostscript"
+# Distributed revision control system
+brew "git"
+# Syntax-highlighting pager for git and diff output
+brew "git-delta"
+# Open-source GitLab command-line tool
+brew "glab"
+# Cross-platform application and UI framework
+brew "qt"
+# Command-driven, interactive function plotting
+brew "gnuplot"
+# Package compiler and linker metadata toolkit
+brew "pkgconf"
+# Development framework for multimedia applications
+brew "gstreamer"
+# User-friendly cURL replacement (command-line HTTP client)
+brew "httpie"
+# Tools and libraries to manipulate images in many formats
+brew "imagemagick"
+# Platform built on V8 to build network applications
+brew "node"
+# CLI for ImageOptim, ImageAlpha and JPEGmini
+brew "imageoptim-cli"
+# Lightweight and flexible command-line JSON processor
+brew "jq"
+# Pager program similar to more
+brew "less"
+# Postgres C API library
+brew "libpq"
+# Logging Framework for C++
+brew "log4cplus"
+# Port scanning utility for large networks
+brew "nmap"
+# Manage multiple Node.js versions
+brew "nvm"
+# Interpreted, interactive, object-oriented programming language
+brew "python@3.11"
+# Interpreted, interactive, object-oriented programming language
+brew "python@3.12"
+# Ruby version manager
+brew "rbenv"
+# Persistent key-value database, with built-in net interface
+brew "redis"
+# Search tool like grep and The Silver Searcher
+brew "ripgrep"
+# SOcket CAT: netcat on steroids
+brew "socat"
+# Send macOS User Notifications from the command-line
+brew "terminal-notifier"
+# Extremely fast Python package installer and resolver, written in Rust
+brew "uv"
+# Tool for creating isolated virtual python environments
+brew "virtualenv"
+# Executes a program periodically, showing output fullscreen
+brew "watch"
+# Internet file retriever
+brew "wget"
+# JavaScript package manager
+brew "yarn"
+# Fish-like fast/unobtrusive autosuggestions for zsh
+brew "zsh-autosuggestions"
+# Zsh port of Fish shell's history search
+brew "zsh-history-substring-search"
+# Fish shell like syntax highlighting for zsh
+brew "zsh-syntax-highlighting"
+# Terraform
+brew "hashicorp/tap/terraform"
+# Incredibly fast JavaScript runtime, bundler, transpiler and package manager - all in one.
+brew "oven-sh/bun/bun"
+# Command-line interface for 1Password
+cask "1password-cli"
+# Terminal emulator that uses platform-native UI and GPU acceleration
+cask "ghostty"
+# Reverse proxy, secure introspectable tunnels to localhost
+cask "ngrok"
+# Plugin for AWS CLI to start and end sessions that connect to managed instances
+cask "session-manager-plugin"
+vscode "hashicorp.terraform"
+vscode "ms-python.debugpy"
+vscode "ms-python.python"
+vscode "ms-python.vscode-pylance"
+vscode "ms-python.vscode-python-envs"

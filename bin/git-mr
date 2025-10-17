@@ -1,0 +1,87 @@
+#!/bin/bash
+
+set -e
+
+# Check if commit hash is provided
+if [ $# -eq 0 ]; then
+    echo "Usage: $0 <commit-hash>"
+    echo "Example: $0 e800f2714d07f6539fe66833860e0d9180917351"
+    exit 1
+fi
+
+start_commit="$1"
+
+# Validate that we're in a git repository
+if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    echo "Error: Not in a git repository"
+    exit 1
+fi
+
+# Validate that the commit exists
+if ! git cat-file -e "$start_commit" 2>/dev/null; then
+    echo "Error: Commit '$start_commit' does not exist"
+    exit 1
+fi
+
+# Function to check a commit for merge request info
+check_commit_for_mr() {
+    local commit="$1"
+    local mr_line
+    
+    mr_line=$(git log --format=%B -n 1 "$commit" | grep -E "See merge request [^/]+/[^!]+![0-9]+" | head -1)
+    
+    if [ -n "$mr_line" ]; then
+        # Extract the project path and MR number
+        local project_and_mr
+        project_and_mr=$(echo "$mr_line" | sed -n 's/.*See merge request \([^/]*\/[^!]*\)!\([0-9]*\).*/\1 \2/p')
+        local project_path
+        project_path=$(echo "$project_and_mr" | cut -d' ' -f1)
+        local mr_number
+        mr_number=$(echo "$project_and_mr" | cut -d' ' -f2)
+        
+        # Construct and return the GitLab URL
+        echo "https://gitlab.com/$project_path/-/merge_requests/$mr_number"
+        return 0
+    fi
+    
+    return 1
+}
+
+# First check the starting commit itself
+if check_commit_for_mr "$start_commit"; then
+    exit 0
+fi
+
+# Find the immediate children of the commit first
+children=$(git rev-list --children --all | grep "^$start_commit" | cut -d' ' -f2-)
+
+if [ -n "$children" ]; then
+    # Check immediate children first
+    for child in $children; do
+        if check_commit_for_mr "$child"; then
+            exit 0
+        fi
+    done
+fi
+
+# If not found in immediate children, search descendants but prefer merge commits
+# Get all commits from the starting commit to HEAD across all branches
+while read -r commit; do
+    # Prefer merge commits (they're more likely to have the original MR info)
+    if git cat-file -p "$commit" | grep -q "^parent.*parent"; then
+        if check_commit_for_mr "$commit"; then
+            exit 0
+        fi
+    fi
+done < <(git rev-list --ancestry-path "$start_commit"..HEAD --all 2>/dev/null)
+
+# If still not found, check all descendants
+while read -r commit; do
+    if check_commit_for_mr "$commit"; then
+        exit 0
+    fi
+done < <(git rev-list --ancestry-path "$start_commit"..HEAD --all 2>/dev/null)
+
+# If we get here, no merge request was found
+echo "No merge request found for commit $start_commit" >&2
+exit 1

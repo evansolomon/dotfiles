@@ -1,0 +1,80 @@
+#!/usr/bin/env node
+
+const stream = require('stream');
+const child_process = require('child_process');
+
+class Listener extends stream.Transform {
+    buffer = ''
+
+    _transform(chunk, encoding, callback) {
+        try {
+            this.push(chunk)
+
+            this.buffer += chunk.toString()
+            let lines = this.buffer.split('\n')
+            this.buffer = lines.pop()
+            lines.forEach(line => this.handleLine(line))
+            callback()
+        } catch (err) {
+            console.error('Error in transform:', err)
+            callback(err)
+        }
+    }
+
+    _flush(callback) {
+        try {
+            this.buffer.split('\n').forEach(line => this.handleLine(line))
+            callback()
+        } catch (err) {
+            console.error('Error in flush:', err)
+            callback(err)
+        }
+    }
+
+    handleLine(line) {
+        try {
+            console.log('handleLine', {line})
+            let match = line.match(/^([a-z-]+).+Listening on http:\/\/.+:(\d+)/)
+            if (match) {
+                child_process.exec(`terminal-notifier -title "${match[1]}" -message "Listening on ${match[2]}"`, (error) => {
+                    if (error) {
+                        console.error('Error sending notification:', error)
+                    }
+                })
+            }
+        } catch (err) {
+            console.error('Error handling line:', err)
+            // Don't throw here to prevent breaking the pipeline
+        }
+    }
+}
+
+// Create the listener instance
+const listener = new Listener();
+
+// Set up proper error handling for all streams
+process.stdin.on('error', (err) => {
+    console.error('stdin error:', err);
+});
+
+listener.on('error', (err) => {
+    console.error('listener error:', err);
+});
+
+process.stdout.on('error', (err) => {
+    console.error('stdout error:', err);
+    // Don't exit on stdout errors (e.g., broken pipe)
+});
+
+// Set up the pipeline
+process.stdin
+    .pipe(listener)
+    .pipe(process.stdout, { end: false }); // Don't end stdout when stdin ends
+
+// Prevent the script from exiting on SIGPIPE
+process.on('SIGPIPE', () => {
+    // Just catch it to prevent exit
+});
+
+// Keep the process alive until stdin fully ends
+process.stdin.resume();

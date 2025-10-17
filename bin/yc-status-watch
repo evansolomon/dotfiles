@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# Default service name
+SERVICE=${1:-bookface}
+
+# Ensure colors are preserved in the output
+export TERM=xterm-256color
+
+# Function to print status header and output
+print_status() {
+    local output="$1"
+    clear
+    echo "Every 5.0s: yc status $SERVICE production web"
+    echo "Current time: $(date)"
+    echo
+    echo -e "$output"  # -e flag to interpret color escape sequences
+}
+
+# Store the initial SHA
+initial_output=$(script -q /dev/null yc status $SERVICE production web | sed '1d; $d')  # script preserves colors, sed removes script's header/footer
+previous_sha=$(echo "$initial_output" | grep "Git SHA:" | awk '{print $3}')
+
+# Show initial output
+print_status "$initial_output"
+
+while true; do
+    # Get new output before clearing screen, preserving colors
+    new_output=$(script -q /dev/null yc status $SERVICE production web | sed '1d; $d')
+    
+    # Get current SHA from the new output
+    current_sha=$(echo "$new_output" | grep "Git SHA:" | awk '{print $3}')
+    
+    # Print new status only after we have it
+    print_status "$new_output"
+    
+    # Check if SHA has changed
+    if [ "$current_sha" != "$previous_sha" ] && [ ! -z "$current_sha" ]; then
+        # Get commit message for notification
+        commit_message=$(echo "$new_output" | grep -A 1 "Git SHA:" | tail -n 1)
+        
+        # Send notification
+        terminal-notifier \
+            -title "$SERVICE Deployment Updated" \
+            -message "$commit_message" \
+            -subtitle "New SHA: ${current_sha:0:8}" \
+            -sound default
+        
+        # Update previous SHA
+        previous_sha=$current_sha
+    fi
+    
+    # Wait 5 seconds before next check
+    sleep 5
+done

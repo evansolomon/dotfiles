@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+glab mr update --reviewer caseymrm --reviewer duhaime --reviewer sstur

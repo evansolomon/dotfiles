@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+# Exit if no argument is provided
+if [ $# -eq 0 ]; then
+    echo "Error: Please provide a GitLab merge request URL"
+    exit 1
+fi
+
+# Default service to "bookface" if not provided
+service=${2:-bookface}
+
+# Default service to "production" if not provided
+environment=${3:-production}
+
+# Find the id of the MR
+mr_id=$(echo "$1" | sed 's/.*merge_requests\/\([0-9]*\).*/\1/')
+if [ -z "${mr_id}" ]; then
+    echo "Could not find MR ID"
+    exit 1
+fi
+echo "Checking deploy status for MR: https://gitlab.com/yc-software/code/-/merge_requests/${mr_id}"
+
+commit_message_pattern="See merge request yc-software/code!${mr_id}"
+echo "Searching for commit with pattern: \"${commit_message_pattern}\""
+
+echo "Running git fetch"
+git fetch --quiet
+
+mr_sha=$(git log -1 --grep "${commit_message_pattern}" --format="%H" origin/master)
+if [ -z "${mr_sha}" ]; then
+    echo "Could not find commit sha for MR ${mr_id}"
+    exit 1
+fi
+echo "Found commit: ${mr_sha}"
+
+echo "Getting ${service} status"
+status=$(yc status $service $environment)
+deployed_sha=$(echo "$status"  | grep "Git SHA:" | cut -d' ' -f3)
+if [ -z "${deployed_sha}" ];then
+    echo "Could not find deployed sha for ${service} ${environment}"
+    exit 1
+fi
+echo "Live sha: ${deployed_sha}"
+
+if git merge-base --is-ancestor $mr_sha $deployed_sha; then
+    echo "MR ${mr_id} is deployed"
+else
+    echo "MR ${mr_id} is NOT deployed"
+    exit 1
+fi

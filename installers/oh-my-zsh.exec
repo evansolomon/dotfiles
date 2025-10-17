@@ -1,33 +1,33 @@
 #!/usr/bin/env bash
 
-section "Checking oh-my-zsh installation"
-if [ ! -d "$HOME/.oh-my-zsh" ]; then
-  info "Installing oh-my-zsh"
-  if [[ $(git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh  >/dev/null 2>&1) -eq 0 ]]; then
-    success "Intstalled oh-my-zsh"
-  fi
-else
-  success "oh-my-zsh already installed"
-fi
+# section "Checking oh-my-zsh installation"
+# if [ ! -d "$HOME/.oh-my-zsh" ]; then
+#   info "Installing oh-my-zsh"
+#   if [[ $(git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh  >/dev/null 2>&1) -eq 0 ]]; then
+#     success "Intstalled oh-my-zsh"
+#   fi
+# else
+#   success "oh-my-zsh already installed"
+# fi
 
-if [ ! -d "$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting" ]; then
-  info "Installing zsh-syntax-highlighting"
-  mkdir -p "$HOME/.oh-my-zsh/custom/plugins/"
-  cd "$HOME/.oh-my-zsh/custom/plugins/"
-  if [[ $(git clone git://github.com/zsh-users/zsh-syntax-highlighting.git >/dev/null 2>&1) -eq 0 ]]; then
-    success "Intstalled zsh-syntax-highlighting"
-  fi
-else
-  success "zsh-syntax-highlighting already installed"
-fi
+# if [ ! -d "$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting" ]; then
+#   info "Installing zsh-syntax-highlighting"
+#   mkdir -p "$HOME/.oh-my-zsh/custom/plugins/"
+#   cd "$HOME/.oh-my-zsh/custom/plugins/"
+#   if [[ $(git clone git://w.git >/dev/null 2>&1) -eq 0 ]]; then
+#     success "Intstalled zsh-syntax-highlighting"
+#   fi
+# else
+#   success "zsh-syntax-highlighting already installed"
+# fi
 
-if [ ! -d "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions" ]; then
-  info "Installing zsh-autosuggestions"
-  mkdir -p "$HOME/.oh-my-zsh/custom/plugins/"
-  cd "$HOME/.oh-my-zsh/custom/plugins/"
-  if [[ $(git clone git://github.com/zsh-users/zsh-autosuggestions.git >/dev/null 2>&1) -eq 0 ]]; then
-    success "Intstalled zsh-autosuggestions"
-  fi
-else
-  success "zsh-autosuggestions already installed"
-fi
+# if [ ! -d "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions" ]; then
+#   info "Installing zsh-autosuggestions"
+#   mkdir -p "$HOME/.oh-my-zsh/custom/plugins/"
+#   cd "$HOME/.oh-my-zsh/custom/plugins/"
+#   if [[ $(git clone git://github.com/zsh-users/zsh-autosuggestions.git >/dev/null 2>&1) -eq 0 ]]; then
+#     success "Intstalled zsh-autosuggestions"
+#   fi
+# else
+#   success "zsh-autosuggestions already installed"
+# fi

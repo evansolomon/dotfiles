@@ -1,0 +1,99 @@
+#!/usr/bin/env bash
+
+set -e
+
+PREFIX="evan"
+
+# Function to show usage
+show_usage() {
+    echo "Usage: $0 [source_branch]"
+    echo "  source_branch: Optional. The branch to create new branches from (default: current branch)"
+    echo "Example: $0 main"
+    exit 1
+}
+
+# Parse command line arguments
+SOURCE_BRANCH=""
+if [ $# -eq 1 ]; then
+    if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+        show_usage
+    fi
+    SOURCE_BRANCH="$1"
+elif [ $# -gt 1 ]; then
+    echo "Error: Too many arguments" >&2
+    show_usage
+fi
+
+# Check if we're in a git repository
+if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+    echo "Error: Not in a git repository" >&2
+    exit 1
+fi
+
+# Validate source branch if provided
+if [ -n "$SOURCE_BRANCH" ]; then
+    # Check if it's a local branch, remote branch, or commit/tag
+    if ! git show-ref --quiet refs/heads/"$SOURCE_BRANCH" && \
+       ! git show-ref --quiet refs/remotes/"$SOURCE_BRANCH" && \
+       ! git rev-parse --verify "$SOURCE_BRANCH" >/dev/null 2>&1; then
+        echo "Error: Source branch '$SOURCE_BRANCH' does not exist" >&2
+        echo "Available branches:" >&2
+        echo "  Local branches:" >&2
+        git branch --format='    %(refname:short)' >&2
+        echo "  Remote branches:" >&2
+        git branch -r --format='    %(refname:short)' >&2
+        exit 1
+    fi
+fi
+
+# Get the length of the longest branch name
+max_length=$(git for-each-ref --format='%(refname:short)' refs/heads/ | awk '{ print length }' | sort -rn | head -1)
+
+# Add some padding (e.g., 2 spaces)
+column_width=$((max_length + 2))
+
+git_log_preview='git -c color.ui=always -c color.log.date=yellow -c color.log.author=green -c color.log.commit=red log --color=always -n 5 {1}'
+
+# Use the calculated width in the git command, with modified date format
+output=$(git for-each-ref --sort=-committerdate \
+    --format="%(align:left,$column_width)%(refname:short)%(end) %(committerdate:format:%b %d, %Y %I:%M %p)" refs/heads/ \
+    | fzf \
+        --ansi \
+        --preview "$git_log_preview" \
+        --preview-window=right:50%:wrap \
+        --pointer='▶' \
+        --header 'Select a branch to checkout or type a new branch name' \
+        --prompt 'Branch > ' \
+        --color='fg:252,bg:232,hl:67,fg+:252,bg+:233,hl+:81,info:144,prompt:78,spinner:135,pointer:135,marker:118' \
+        --cycle \
+        --no-mouse \
+        --print-query \
+    | tail -n1)
+
+selected_branch=$(echo $output | awk '{print $1}')
+if [ -z "$selected_branch" ]; then
+    echo "No branch selected. Exiting."
+    exit 0
+fi
+
+# Check if the branch exists
+if git show-ref --quiet refs/heads/"$selected_branch"; then
+    # Branch exists, checkout
+    git checkout "$selected_branch"
+else
+    # Branch doesn't exist, create and checkout
+    # Replace spaces with hyphens only for new branches
+    new_branch_name=$(echo "${PREFIX}/$output" | tr ' ' '-')
+    echo "${new_branch_name} does not exist, creating it"
+    
+    # Create branch from source branch if specified, otherwise from current branch
+    if [ -n "$SOURCE_BRANCH" ]; then
+        echo "Creating branch from: $SOURCE_BRANCH"
+        # Use --no-track to avoid setting up upstream tracking when creating from remote branches
+        git checkout --no-track -b "$new_branch_name" "$SOURCE_BRANCH"
+    else
+        git checkout -b "$new_branch_name"
+    fi
+    
+    echo "Created and checked out new branch: $new_branch_name"
+fi

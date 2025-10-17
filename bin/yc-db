@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+# Get the command from first argument, default to empty
+COMMAND=${1:-}
+
+if [ "$COMMAND" = "-h" ]; then
+    echo "Usage: $0 [command]"
+    echo
+    echo "Commands:"
+    echo "  -h      Show this help message"
+    echo "  (none)  Connect to ycinternal_dev"
+    echo "  --list  List all databases"
+    echo "  <db>    Connect to ycinternal_<db>"
+elif [ "$COMMAND" = "--list" ]; then
+    # List all databases
+    yc ssh ycinternal development -c 'psql -U postgres -l'
+elif [ -z "$COMMAND" ]; then
+    # No argument provided, use original command with dev
+    yc ssh ycinternal development -c 'psql -U postgres -d ycinternal_dev'
+else
+    # Use provided environment to replace 'dev'
+    if [[ "$COMMAND" == *"_"* ]]; then
+        DB_NAME="$COMMAND"
+    else
+        DB_NAME="ycinternal_$COMMAND"
+    fi
+
+    yc ssh ycinternal development -c "psql -U postgres -d $DB_NAME"
+fi

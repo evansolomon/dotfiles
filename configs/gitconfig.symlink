@@ -1,8 +1,19 @@
+[interactive]
+    diffFilter = delta --color-only
+[delta]
+	# https://dandavison.github.io/delta/configuration.html
+    navigate = true    # use n and N to move between diff sections
+	hyperlinks = true
+	hyperlinks-commit-link-format = 'https://gitlab.com/yc-software/code/-/commit/{commit}'
+	side-by-side = true
+	#hyperlinks-file-link-format = "rubymine://open?file={path}&line={line}"
 [user]
 	name = Evan Solomon
+	email = evan@ycombinator.com
 [push]
 	default = simple
 	followtags = true
+	autoSetupRemote = true
 [help]
 	autocorrect = 1
 [color]
@@ -11,11 +22,11 @@
 	enabled = 1
 [core]
 	excludesfile = ~/.gitignore
-	pager = less -F -X
+    pager = delta
 [merge]
 	defaultToUpstream = true
 	ff = only
-	conflictstyle = diff3
+	conflictstyle = zdiff3
 [diff]
 	algorithm = patience
 	indentHeuristic = on
@@ -29,6 +40,12 @@
 	prune = fetch --prune
 	names = show --name-only
 	l = log --graph --pretty=format:'%Cred%h%Creset %Cblue[%an]%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%Creset' --abbrev-commit
+	push-branch = ! git push origin $(git rev-parse --abbrev-ref HEAD) --set-upstream
+	smoosh = ! git add . && git amend -n
+	mine = ! git l --author=\"$(git config user.name)\"
+	wip = !git add . && git commit -n -m "Work-in-progress"
+	new = !git fetch origin master && git b origin/master
+	fixup = "!f() { target=${1:-origin/master}; tmpfile=$(mktemp); echo \"\" > $tmpfile; echo \"\" >> $tmpfile; echo \"# Commit messages from squashed commits:\" >> $tmpfile; git log --format=\"# %B\" $target..HEAD | sed 's/^# $/#/' >> $tmpfile; git reset --soft $target && git commit -t $tmpfile; rm -f $tmpfile; }; f"
 [grep]
 	patternType = perl
 [status]

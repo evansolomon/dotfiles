@@ -1,0 +1,54 @@
+#!/bin/bash
+PROJECT_PATH="yc-software%2Fcode"
+USER_LIST_ID="9"
+NEW_USERS=$(yc rr b production --code '"puts User.yc_staff.map {|u| u.hnid}.join('\'','\'')"' | tail -n 1)
+
+echo "New users to set: $NEW_USERS"
+echo "Total characters: ${#NEW_USERS}"
+
+# Step 1: Clear all existing users
+echo "Clearing all existing users..."
+glab api --method PUT "projects/$PROJECT_PATH/feature_flags_user_lists/$USER_LIST_ID" \
+  --field "user_xids="
+
+# Step 2: Split users into chunks and add them
+IFS=',' read -ra USERS_ARRAY <<< "$NEW_USERS"
+echo "Total users: ${#USERS_ARRAY[@]}"
+
+CHUNK=""
+CHUNK_COUNT=0
+MAX_CHUNK_LENGTH=200  # Leave some buffer under 256
+
+for user in "${USERS_ARRAY[@]}"; do
+    # Check if adding this user would exceed the limit
+    if [ ${#CHUNK} -eq 0 ]; then
+        PROPOSED_CHUNK="$user"
+    else
+        PROPOSED_CHUNK="$CHUNK,$user"
+    fi
+    
+    if [ ${#PROPOSED_CHUNK} -le $MAX_CHUNK_LENGTH ]; then
+        CHUNK="$PROPOSED_CHUNK"
+    else
+        # Send current chunk
+        if [ ${#CHUNK} -gt 0 ]; then
+            CHUNK_COUNT=$((CHUNK_COUNT + 1))
+            echo "Adding chunk $CHUNK_COUNT (${#CHUNK} chars): $CHUNK"
+            glab api --method PUT "projects/$PROJECT_PATH/feature_flags_user_lists/$USER_LIST_ID" \
+              --field "user_xids=$CHUNK"
+        fi
+        # Start new chunk with current user
+        CHUNK="$user"
+    fi
+done
+
+# Send final chunk
+if [ ${#CHUNK} -gt 0 ]; then
+    CHUNK_COUNT=$((CHUNK_COUNT + 1))
+    echo "Adding final chunk $CHUNK_COUNT (${#CHUNK} chars): $CHUNK"
+    glab api --method PUT "projects/$PROJECT_PATH/feature_flags_user_lists/$USER_LIST_ID" \
+      --field "user_xids=$CHUNK"
+fi
+
+echo "Added users in $CHUNK_COUNT chunks"
+echo "User list now contains all specified users"
